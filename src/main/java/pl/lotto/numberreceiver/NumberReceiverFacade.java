@@ -6,8 +6,8 @@ import java.util.UUID;
 
 public class NumberReceiverFacade {
 
-    public static final String FAILURE_MESSAGE = "failure";
-    public static final String SUCCESS_MESSAGE = "success";
+    private static final String FAILURE_MESSAGE = "failure";
+    private static final String SUCCESS_MESSAGE = "success";
     NumberInputValidator validator = new NumberInputValidator();
 
     public NumberReceiverResultDto inputNumbers(List<Integer> numbersFromUser) {

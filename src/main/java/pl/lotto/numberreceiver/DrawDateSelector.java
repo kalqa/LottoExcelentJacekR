@@ -5,10 +5,10 @@ import java.time.temporal.TemporalAdjusters;
 
 public class DrawDateSelector {
 
-    public static final LocalDateTime DATE_AND_TIME_OF_TICKET_PURCHASE = LocalDateTime.now();
-    public static final LocalDate DATE_OF_TICKET_PURCHASE = LocalDate.now();
-    public static final int DRAW_HOUR = 12;
-    public static final DayOfWeek DRAW_DAY = DayOfWeek.SATURDAY;
+    private static final LocalDateTime DATE_AND_TIME_OF_TICKET_PURCHASE = LocalDateTime.now();
+    private static final LocalDate DATE_OF_TICKET_PURCHASE = LocalDate.now();
+    private static final int DRAW_HOUR = 12;
+    private static final DayOfWeek DRAW_DAY = DayOfWeek.SATURDAY;
 
     public static LocalDateTime specifyExactDateNextDraw() {
 

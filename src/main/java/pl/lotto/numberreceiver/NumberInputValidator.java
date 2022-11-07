@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 public class NumberInputValidator {
 
-    public static final int MAX_NUMBERS_FROM_USER = 6;
-    public static final int MIN_INPUT_NUMBER = 1;
-    public static final int MAX_INPUT_NUMBER = 99;
+    private static final int MAX_NUMBERS_FROM_USER = 6;
+    private static final int MIN_INPUT_NUMBER = 1;
+    private static final int MAX_INPUT_NUMBER = 99;
 
     public boolean validate(List<Integer> numbersFromUser) {
         return (doesUserGaveLessThanSixNumbers(numbersFromUser) || doesUserGaveMoreThanSixNumbers(numbersFromUser)
