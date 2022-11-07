@@ -1,21 +1,22 @@
 package pl.lotto.numberreceiver;
 
+import java.time.*;
 import java.util.List;
+import java.util.UUID;
 
 public class NumberReceiverFacade {
 
-    public static final int MAX_NUMBERS_FROM_USER = 6;
     public static final String FAILURE_MESSAGE = "failure";
     public static final String SUCCESS_MESSAGE = "success";
+    NumberInputValidator validator = new NumberInputValidator();
 
     public NumberReceiverResultDto inputNumbers(List<Integer> numbersFromUser) {
-        if (doesUserGaveLessThanSixNumbers(numbersFromUser)) {
-            return new NumberReceiverResultDto(FAILURE_MESSAGE);
+        if (validator.validate(numbersFromUser)) {
+            return new NumberReceiverResultDto(FAILURE_MESSAGE, null, null);
         }
-        return new NumberReceiverResultDto(SUCCESS_MESSAGE);
+        UUID lotteryID = LotteryIDGenerator.generateLotteryID();
+        LocalDateTime drawDate = DrawDateSelector.specifyExactDateNextDraw();
+        return new NumberReceiverResultDto(SUCCESS_MESSAGE, lotteryID, drawDate);
     }
 
-    private static boolean doesUserGaveLessThanSixNumbers(List<Integer> numbersFromUser) {
-        return numbersFromUser.size() < MAX_NUMBERS_FROM_USER;
-    }
 }
