@@ -18,5 +18,4 @@ public class NumberReceiverFacade {
         LocalDateTime drawDate = DrawDateSelector.specifyExactDateNextDraw();
         return new NumberReceiverResultDto(SUCCESS_MESSAGE, lotteryID, drawDate);
     }
-
 }
