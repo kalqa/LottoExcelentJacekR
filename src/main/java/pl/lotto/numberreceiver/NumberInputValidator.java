@@ -1,9 +1,12 @@
 package pl.lotto.numberreceiver;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static pl.lotto.numberreceiver.ValidationError.DUPLICATED_NUMBERS;
+import static pl.lotto.numberreceiver.ValidationError.LESS_THAN_SIX_NUMBER;
 
 public class NumberInputValidator {
 
@@ -11,25 +14,48 @@ public class NumberInputValidator {
     private static final int MIN_INPUT_NUMBER = 1;
     private static final int MAX_INPUT_NUMBER = 99;
 
-    public boolean validate(List<Integer> numbersFromUser) {
-        return (doesUserGaveLessThanSixNumbers(numbersFromUser) || doesUserGaveMoreThanSixNumbers(numbersFromUser)
-                || doesUserGaveDuplicatedNumbers(numbersFromUser) || doesUserGaveNumbersInRange(numbersFromUser));
+    List<ValidationError> errors = new LinkedList<>();
+
+    public ValidationResult validate(List<Integer> numbersFromUser) {
+        if (doesUserGaveDuplicatedNumbers(numbersFromUser)) {
+            errors.add(DUPLICATED_NUMBERS);
+        }
+        if (doesUserGaveLessThanSixNumbers(numbersFromUser)) {
+            errors.add(LESS_THAN_SIX_NUMBER);
+        }
+//        if (doesUserGaveMoreThanSixNumbers(numbersFromUser)) {
+//            errors.add("UserGaveMoreThanSixNumbers");
+//        }
+//        if (doesUserGaveNumbersInRange(numbersFromUser)) {
+//            errors.add("UserGaveNumbersInRange");
+//        }
+        if (!errors.isEmpty()) {
+            String message = concatenateValidationMessage();
+            return new ValidationResult(message);
+        }
+        return new ValidationResult("success");
     }
 
-    private static boolean doesUserGaveLessThanSixNumbers(List<Integer> numbersFromUser) {
+    private String concatenateValidationMessage() {
+        return errors.stream()
+                .map(error -> error.message)
+                .collect(Collectors.joining(","));
+    }
+
+    private boolean doesUserGaveLessThanSixNumbers(List<Integer> numbersFromUser) {
         return numbersFromUser.size() < MAX_NUMBERS_FROM_USER;
     }
 
-    private static boolean doesUserGaveMoreThanSixNumbers(List<Integer> numbersFromUser) {
+    private boolean doesUserGaveMoreThanSixNumbers(List<Integer> numbersFromUser) {
         return numbersFromUser.size() > MAX_NUMBERS_FROM_USER;
     }
 
-    private static boolean doesUserGaveDuplicatedNumbers(List<Integer> numbersFromUser) {
+    private boolean doesUserGaveDuplicatedNumbers(List<Integer> numbersFromUser) {
         Set<Integer> numberFromUserWithoutDuplicates = new HashSet<>(numbersFromUser);
         return numbersFromUser.size() != numberFromUserWithoutDuplicates.size();
     }
 
-    private static boolean doesUserGaveNumbersInRange(List<Integer> numbersFromUser) {
+    private boolean doesUserGaveNumbersInRange(List<Integer> numbersFromUser) {
         return !numbersFromUser.stream()
                 .filter(number -> number < MIN_INPUT_NUMBER || number > MAX_INPUT_NUMBER)
                 .collect(Collectors.toList())

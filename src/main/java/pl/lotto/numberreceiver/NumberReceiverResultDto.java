@@ -8,4 +8,12 @@ public record NumberReceiverResultDto(
         UUID lotteryId,
         LocalDateTime drawDate
 ) {
+
+    public static NumberReceiverResultDto failure(ValidationResult result) {
+        return new NumberReceiverResultDto(result.message(), null, null);
+    }
+
+    public static NumberReceiverResultDto success(ValidationResult result, UUID lotteryID, LocalDateTime drawDate) {
+        return new NumberReceiverResultDto(result.message(), lotteryID, drawDate);
+    }
 }
