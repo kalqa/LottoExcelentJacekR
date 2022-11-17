@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import static pl.lotto.numberreceiver.ValidationError.*;
 
-public class NumberInputValidator {
+class NumberInputValidator {
 
     private static final int MAX_NUMBERS_FROM_USER = 6;
     private static final int MIN_INPUT_NUMBER = 1;

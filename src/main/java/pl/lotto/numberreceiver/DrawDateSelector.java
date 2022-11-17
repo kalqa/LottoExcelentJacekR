@@ -6,19 +6,21 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 
-public class DrawDateSelector {
+class DrawDateSelector {
 
 
-      public Clock clock;
-
-    public DrawDateSelector(Clock clock) {
-        this.clock = clock;
-    }
+    public Clock clock;
 
     private static final int DRAW_HOUR = 12;
     private static final DayOfWeek DRAW_DAY = DayOfWeek.SATURDAY;
-    LocalDateTime todayDraw = LocalDateTime.now(clock).truncatedTo(ChronoUnit.HOURS);
-    LocalDateTime nextDrawDate = todayDraw.with(TemporalAdjusters.next(DRAW_DAY)).withHour(DRAW_HOUR);
+    LocalDateTime todayDraw;
+    LocalDateTime nextDrawDate;
+
+    public DrawDateSelector(Clock clock) {
+        this.clock = clock;
+        this.todayDraw = LocalDateTime.now(clock).truncatedTo(ChronoUnit.HOURS);
+        this.nextDrawDate = todayDraw.with(TemporalAdjusters.next(DRAW_DAY)).withHour(DRAW_HOUR);
+    }
 
     public boolean isAbleToDrawToday() {
         if (todayDraw.getDayOfWeek() != DRAW_DAY) {

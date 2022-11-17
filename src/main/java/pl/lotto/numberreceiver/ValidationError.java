@@ -1,6 +1,6 @@
 package pl.lotto.numberreceiver;
 
-public enum ValidationError {
+enum ValidationError {
 
 
     DUPLICATED_NUMBERS("User gave duplicated numbers"),

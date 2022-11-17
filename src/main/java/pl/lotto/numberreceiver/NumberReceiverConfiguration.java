@@ -1,7 +1,6 @@
 package pl.lotto.numberreceiver;
 
 import java.time.Clock;
-import java.util.List;
 
 public class NumberReceiverConfiguration {
     DrawDateSelector drawDateSelector;
@@ -14,7 +13,7 @@ public class NumberReceiverConfiguration {
         lotteryIdGenerator = new LotteryIdGenerator();
     }
 
-    public NumberReceiverFacade createForTests() {
-        return new NumberReceiverFacade(validator, drawDateSelector, lotteryIdGenerator);
+    public NumberReceiverFacade createForTests(NumberReceiverRepository repository) {
+        return new NumberReceiverFacade(validator, drawDateSelector, lotteryIdGenerator, repository);
     }
 }
