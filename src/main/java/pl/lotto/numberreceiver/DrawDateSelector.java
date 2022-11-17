@@ -1,34 +1,40 @@
 package pl.lotto.numberreceiver;
 
+import java.time.Clock;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 
 public class DrawDateSelector {
 
-    //    private final LocalDateTime DATE_AND_TIME_OF_TICKET_PURCHASE = LocalDateTime.now();
-    private static final LocalDate DATE_OF_TICKET_PURCHASE = LocalDate.now();
-    private static final int DRAW_HOUR = 12;
-//    private static final DayOfWeek DRAW_DAY = ;
 
-    public static LocalDateTime specifyExactDateNextDraw() {
-        LocalDateTime today = LocalDateTime.now();
-        return today.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+      public Clock clock;
 
-//        if (isAfterDrawDate()) {
-////            LocalDateTime of = LocalDateTime.of(DATE_OF_TICKET_PURCHASE.plusWeeks(1), LocalTime.of(DRAW_HOUR, 0));
-//            LocalDateTime with = DATE_AND_TIME_OF_TICKET_PURCHASE.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
-//            return with;
-//        } else {
-//            LocalDateTime of = LocalDateTime.of(DATE_OF_TICKET_PURCHASE, LocalTime.of(DRAW_HOUR, 0));
-//            LocalDateTime with = of.with(TemporalAdjusters.nextOrSame(DRAW_DAY));
-//            return with;
-//        }
+    public DrawDateSelector(Clock clock) {
+        this.clock = clock;
     }
 
-//    private static boolean isAfterDrawDate() {
-//        return DATE_OF_TICKET_PURCHASE.getDayOfWeek() == DRAW_DAY && DATE_AND_TIME_OF_TICKET_PURCHASE.getHour() >= DRAW_HOUR;
-//    }
+    private static final int DRAW_HOUR = 12;
+    private static final DayOfWeek DRAW_DAY = DayOfWeek.SATURDAY;
+    LocalDateTime todayDraw = LocalDateTime.now(clock).truncatedTo(ChronoUnit.HOURS);
+    LocalDateTime nextDrawDate = todayDraw.with(TemporalAdjusters.next(DRAW_DAY)).withHour(DRAW_HOUR);
+
+    public boolean isAbleToDrawToday() {
+        if (todayDraw.getDayOfWeek() != DRAW_DAY) {
+            return false;
+        } else {
+            return todayDraw.getHour() < DRAW_HOUR;
+        }
+    }
+
+    public LocalDateTime specifyExactDateNextDraw() {
+        if (isAbleToDrawToday()) {
+            return todayDraw.withHour(DRAW_HOUR);
+        } else {
+            return nextDrawDate;
+        }
+    }
 }
+
 

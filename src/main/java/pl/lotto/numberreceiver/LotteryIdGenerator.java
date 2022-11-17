@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class LotteryIdGenerator {
 
-    public static UUID generateLotteryID() {
+    public static UUID generateLotteryId() {
         return UUID.randomUUID();
     }
 

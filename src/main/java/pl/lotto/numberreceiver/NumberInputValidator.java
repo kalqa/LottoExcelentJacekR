@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import static pl.lotto.numberreceiver.ValidationError.DUPLICATED_NUMBERS;
-import static pl.lotto.numberreceiver.ValidationError.LESS_THAN_SIX_NUMBER;
+
+import static pl.lotto.numberreceiver.ValidationError.*;
 
 public class NumberInputValidator {
 
@@ -23,15 +23,15 @@ public class NumberInputValidator {
         if (doesUserGaveLessThanSixNumbers(numbersFromUser)) {
             errors.add(LESS_THAN_SIX_NUMBER);
         }
-//        if (doesUserGaveMoreThanSixNumbers(numbersFromUser)) {
-//            errors.add("UserGaveMoreThanSixNumbers");
-//        }
-//        if (doesUserGaveNumbersInRange(numbersFromUser)) {
-//            errors.add("UserGaveNumbersInRange");
-//        }
+        if (doesUserGaveMoreThanSixNumbers(numbersFromUser)) {
+            errors.add(MORE_THAN_SIX_NUMBER);
+        }
+        if (doesUserGaveNumbersInRange(numbersFromUser)) {
+            errors.add(NUMBERS_IN_RANGE);
+        }
         if (!errors.isEmpty()) {
             String message = concatenateValidationMessage();
-            return new ValidationResult(message);
+            return new ValidationResult("failure");
         }
         return new ValidationResult("success");
     }
@@ -56,10 +56,7 @@ public class NumberInputValidator {
     }
 
     private boolean doesUserGaveNumbersInRange(List<Integer> numbersFromUser) {
-        return !numbersFromUser.stream()
-                .filter(number -> number < MIN_INPUT_NUMBER || number > MAX_INPUT_NUMBER)
-                .collect(Collectors.toList())
-                .isEmpty();
+        return numbersFromUser.stream().anyMatch(number -> number < MIN_INPUT_NUMBER || number > MAX_INPUT_NUMBER);
     }
 
 }
