@@ -58,9 +58,9 @@ public class NumberReceiverFacadeTest {
     }
 
     @Test
-    public void should_return_success_with_correct_draw_date_id_when_user_played_on_friday() {
+    public void should_return_success_with_correct_draw_date_id_when_user_played_on_saturday_11AM() {
         // given
-        LocalDateTime friday = LocalDateTime.of(2022, 10, 10, 12, 0,0);
+        LocalDateTime friday = LocalDateTime.of(2022, 11, 19, 11, 0,0);
         Instant clockInstant = ZonedDateTime.of(friday, ZoneId.systemDefault()).toInstant();
         Clock clock = Clock.fixed(clockInstant, ZoneId.systemDefault());
         NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration(clock).createForTests();
@@ -69,7 +69,20 @@ public class NumberReceiverFacadeTest {
         NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
         // then
         assertThat(result.drawDate()).isEqualTo(LocalDateTime.of(2022, 11, 19, 12, 0));
-        System.out.println(result.drawDate());
+    }
+
+    @Test
+    public void should_return_success_with_correct_draw_date_id_when_user_played_on_saturday_1PM() {
+        // given
+        LocalDateTime friday = LocalDateTime.of(2022, 11, 19, 13, 0,0);
+        Instant clockInstant = ZonedDateTime.of(friday, ZoneId.systemDefault()).toInstant();
+        Clock clock = Clock.fixed(clockInstant, ZoneId.systemDefault());
+        NumberReceiverFacade numberReceiverFacade = new NumberReceiverConfiguration(clock).createForTests();
+        List<Integer> numbersFromUser = List.of(1, 2, 3, 4, 5, 6);
+        // when
+        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
+        // then
+        assertThat(result.drawDate()).isEqualTo(LocalDateTime.of(2022, 11, 26, 12, 0));
     }
 
     @Test
