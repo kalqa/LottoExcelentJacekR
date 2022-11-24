@@ -49,6 +49,18 @@ public class NumberReceiverFacade {
         return new AllNumbersFromUsersDto(lotteryTicketDtos);
     }
 
+    public AllNumbersFromUsersDto userNumbersForNextDrawDate() {
+        LocalDateTime localDateTime = drawDateSelector.specifyExactDateNextDraw();
+        List<LotteryTicket> allByDate = repository.findAllByDate(localDateTime);
+        List<LotteryTicketDto> lotteryTicketDtos = allByDate.stream()
+                .map(lotteryTicket -> new LotteryTicketDto(
+                        lotteryTicket.getLotteryId(),
+                        lotteryTicket.getDrawDate(),
+                        lotteryTicket.getNumbersFromUser()))
+                .toList();
+        return new AllNumbersFromUsersDto(lotteryTicketDtos);
+    }
+
     public DrawDateDto specifyDrawDate(){
         return new DrawDateDto(drawDateSelector.specifyExactDateNextDraw());
     }

@@ -1,8 +1,11 @@
 package pl.lotto.numbersgenerator;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
+import pl.lotto.numberreceiver.NumberReceiverFacade;
+import pl.lotto.numberreceiver.dto.DrawDateDto;
 
 public class LuckyNumbersGeneratorFacade {
 
@@ -14,10 +17,10 @@ public class LuckyNumbersGeneratorFacade {
 
     Collection<Integer> luckyNumbers = new HashSet<>();
 
-    public LuckyNumbersDto generateLuckyNumbers() {
+    public LuckyNumbersDto generateLuckyNumbers(LocalDateTime drawDate) {
         while (luckyNumbers.size() < lotterySize) {
             luckyNumbers.add(random.nextInt(startOfNumbersRange, endOfNumbersRange + 1));
         }
-        return new LuckyNumbersDto(luckyNumbers);
+        return new LuckyNumbersDto(luckyNumbers, drawDate);
     }
 }

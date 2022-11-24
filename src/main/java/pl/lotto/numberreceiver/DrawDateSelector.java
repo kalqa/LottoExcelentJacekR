@@ -22,19 +22,19 @@ class DrawDateSelector {
         this.nextDrawDate = todayDraw.with(TemporalAdjusters.next(DRAW_DAY)).withHour(DRAW_HOUR);
     }
 
-    public boolean isAbleToDrawToday() {
-        if (todayDraw.getDayOfWeek() != DRAW_DAY) {
-            return false;
-        } else {
-            return todayDraw.getHour() < DRAW_HOUR;
-        }
-    }
-
     public LocalDateTime specifyExactDateNextDraw() {
         if (isAbleToDrawToday()) {
             return todayDraw.withHour(DRAW_HOUR);
         } else {
             return nextDrawDate;
+        }
+    }
+
+    private boolean isAbleToDrawToday() {
+        if (todayDraw.getDayOfWeek() != DRAW_DAY) {
+            return false;
+        } else {
+            return todayDraw.getHour() < DRAW_HOUR;
         }
     }
 }
