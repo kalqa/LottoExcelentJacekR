@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
+import pl.lotto.numberreceiver.dto.DrawDateDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 import static pl.lotto.numberreceiver.dto.NumberReceiverResultDto.failure;
@@ -48,9 +49,9 @@ public class NumberReceiverFacade {
         return new AllNumbersFromUsersDto(lotteryTicketDtos);
     }
 
-//    public DrawDateDto nextDrawDate(){
-////        drawDateSelector.nextDrawDate;
-//    }
+    public DrawDateDto specifyDrawDate(){
+        return new DrawDateDto(drawDateSelector.specifyExactDateNextDraw());
+    }
 
 
 }
