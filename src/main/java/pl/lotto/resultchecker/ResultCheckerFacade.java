@@ -2,6 +2,7 @@ package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
@@ -14,7 +15,13 @@ public class ResultCheckerFacade {
     LuckyNumbersGeneratorFacade generatorFacade;
     TicketChecker ticketChecker;
 
-    public void checkResult() {
+    public ResultCheckerFacade(NumberReceiverFacade receiverFacade, LuckyNumbersGeneratorFacade generatorFacade, TicketChecker ticketChecker) {
+        this.receiverFacade = receiverFacade;
+        this.generatorFacade = generatorFacade;
+        this.ticketChecker = ticketChecker;
+    }
+
+    public List<CheckedTicket> checkResult() {
         AllNumbersFromUsersDto allNumbersFromUsersDto = receiverFacade.userNumbersForNextDrawDate();
         LocalDateTime drawDate = allNumbersFromUsersDto.tickets()
                 .stream()
@@ -25,6 +32,8 @@ public class ResultCheckerFacade {
         LuckyNumbersDto luckyNumbersDto = generatorFacade.generateLuckyNumbers(drawDate);
 
         List<CheckedTicket> checkedTickets = ticketChecker.checkAllTickets(luckyNumbersDto.winningNumbers(), allNumbersFromUsersDto.tickets());
-//        repository.saveAll(checkedTickets);
+        //        repository.saveAll(checkedTickets);
+        return checkedTickets;
+
     }
 }
