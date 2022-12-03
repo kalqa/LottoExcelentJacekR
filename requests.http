@@ -1,0 +1,15 @@
+POST http://localhost:8080/inputNumbers
+Content-Type: application/json
+
+{
+  "numbers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ]
+}
+
+###

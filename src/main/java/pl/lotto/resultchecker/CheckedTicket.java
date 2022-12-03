@@ -7,17 +7,17 @@ import java.util.UUID;
 
 public class CheckedTicket {
 
+    private final UUID lotteryId;
+    private final LocalDateTime drawDate;
+    private final List<Integer> numbersFromUser;
+    private final Set<Integer> numbersOfHits;
+
     public CheckedTicket(UUID lotteryId, LocalDateTime drawDate, List<Integer> numbersFromUser, Set<Integer> numbersOfHits) {
         this.lotteryId = lotteryId;
         this.drawDate = drawDate;
         this.numbersFromUser = numbersFromUser;
         this.numbersOfHits = numbersOfHits;
     }
-
-    private final UUID lotteryId;
-    private final LocalDateTime drawDate;
-    private final List<Integer> numbersFromUser;
-    private final Set<Integer> numbersOfHits;
 
     public UUID getLotteryId() {
         return lotteryId;

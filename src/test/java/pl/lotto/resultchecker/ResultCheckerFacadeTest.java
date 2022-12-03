@@ -1,18 +1,16 @@
 package pl.lotto.resultchecker;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numbersgenerator.LuckyNumbersDto;
 import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -33,7 +31,8 @@ public class ResultCheckerFacadeTest {
         // then
         assertThat(checkedTickets.get(0).getNumbersOfHits().size()).isEqualTo(3);
     }
-        @Test
+
+    @Test
     public void should_throw_exception_when_draw_date_is_not_specifed_for_ticket() {
         // given
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
@@ -44,9 +43,9 @@ public class ResultCheckerFacadeTest {
         given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
 
         // when
-        List<CheckedTicket> checkedTickets = resultCheckerFacade.checkResult();
+        Throwable throwable = catchThrowable(resultCheckerFacade::checkResult);
         // then
-        assertThatThrownBy(() -> checkedTickets.get(0).getDrawDate()).isInstanceOf(DrawDateNotSpecifedForTicketException.class);
+        assertThat(throwable).isInstanceOf(DrawDateNotSpecifedForTicketException.class);
     }
 
 
@@ -60,7 +59,9 @@ public class ResultCheckerFacadeTest {
 
     AllNumbersFromUsersDto examplaryAllNumbersFromUsersDto() {
         return new AllNumbersFromUsersDto(List.of(new LotteryTicketDto(examplaryId, examplaryDate, List.of(1, 13, 21, 4, 5, 6))));
-    }    AllNumbersFromUsersDto examplaryAllNumbersFromUsersDtoWithEmptyDate() {
+    }
+
+    AllNumbersFromUsersDto examplaryAllNumbersFromUsersDtoWithEmptyDate() {
         return new AllNumbersFromUsersDto(List.of(new LotteryTicketDto(examplaryId, emptyDate, List.of(1, 13, 21, 4, 5, 6))));
     }
 

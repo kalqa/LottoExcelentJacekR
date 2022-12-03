@@ -19,7 +19,8 @@ public class TicketChecker {
     }
 
     private CheckedTicket fromDto(Collection<Integer> luckyNumbers, LotteryTicketDto ticket) {
-        return new CheckedTicket(ticket.lotteryId(), ticket.drawDate(), ticket.numbersFromUser(), calculateNumbersOfHit(ticket.numbersFromUser(), luckyNumbers));
+        Set<Integer> numbersOfHits1 = calculateNumbersOfHit(ticket.numbersFromUser(), luckyNumbers);
+        return new CheckedTicket(ticket.lotteryId(), ticket.drawDate(), ticket.numbersFromUser(), numbersOfHits1);
     }
 
     private Set<Integer> calculateNumbersOfHit(List<Integer> numbersFromUser, Collection<Integer> luckyNumbers) {

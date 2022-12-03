@@ -2,7 +2,6 @@ package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
@@ -29,11 +28,11 @@ public class ResultCheckerFacade {
                 .map(LotteryTicketDto::drawDate)
                 .orElseThrow(DrawDateNotSpecifedForTicketException::new);
 
-        LuckyNumbersDto luckyNumbersDto = generatorFacade.generateLuckyNumbers(drawDate);
+        LuckyNumbersDto luckyNumbersDto = generatorFacade.generateLuckyNumbers(drawDate
+        );
 
         List<CheckedTicket> checkedTickets = ticketChecker.checkAllTickets(luckyNumbersDto.winningNumbers(), allNumbersFromUsersDto.tickets());
         //        repository.saveAll(checkedTickets);
         return checkedTickets;
-
     }
 }
