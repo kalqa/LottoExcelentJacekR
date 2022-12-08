@@ -4,12 +4,10 @@ import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
 import pl.lotto.resultchecker.CheckedTicket;
 
 public class ResultAnnouncerSummarizer {
-    ResultAnnouncerDto summarizedTicket;
 
     public ResultAnnouncerDto summarizeUniqueTicket(CheckedTicket checkedTicket) {
-        summarizedTicket = new ResultAnnouncerDto(checkedTicket.getLotteryId(), checkedTicket.getDrawDate(),
+        return new ResultAnnouncerDto(checkedTicket.getLotteryId(), checkedTicket.getDrawDate(),
                 checkedTicket.getNumbersFromUser(), checkedTicket.getNumbersOfHits(), informUser(checkedTicket.getNumbersOfHits().size()));
-        return summarizedTicket;
     }
 
     private AnnouncerMessages informUser(int numberOfHit) {

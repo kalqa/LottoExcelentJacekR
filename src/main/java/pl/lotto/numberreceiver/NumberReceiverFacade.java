@@ -39,7 +39,7 @@ public class NumberReceiverFacade {
     }
 
     public AllNumbersFromUsersDto userNumbers(LocalDateTime date) {
-        List<LotteryTicket> allByDate = repository.findAllByDate(date);
+        List<LotteryTicket> allByDate = repository.findAllByDrawDate(date);
         List<LotteryTicketDto> lotteryTicketDtos = allByDate.stream()
                 .map(lotteryTicket -> new LotteryTicketDto(
                         lotteryTicket.getLotteryId(),
@@ -51,7 +51,7 @@ public class NumberReceiverFacade {
 
     public AllNumbersFromUsersDto userNumbersForNextDrawDate() {
         LocalDateTime localDateTime = drawDateSelector.specifyExactDateNextDraw();
-        List<LotteryTicket> allByDate = repository.findAllByDate(localDateTime);
+        List<LotteryTicket> allByDate = repository.findAllByDrawDate(localDateTime);
         List<LotteryTicketDto> lotteryTicketDtos = allByDate.stream()
                 .map(lotteryTicket -> new LotteryTicketDto(
                         lotteryTicket.getLotteryId(),

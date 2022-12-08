@@ -25,7 +25,6 @@ public class ResultAnnouncerFacadeTest {
         given(checkedTicket.getNumbersOfHits()).willReturn(exemplaryNumbersOfHits);
         ResultCheckerFacade resultCheckerFacade = mock(ResultCheckerFacade.class);
         given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(checkedTicket);
-        given(resultCheckerFacade.checkResult()).willReturn(List.of(checkedTicket));
         ResultAnnouncerSummarizer resultAnnouncerSummarizer = new ResultAnnouncerSummarizer();
         ResultAnnouncerRepository resultAnnouncerRepository = mock(ResultAnnouncerRepository.class);
         ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerFacade(resultCheckerFacade, resultAnnouncerSummarizer, resultAnnouncerRepository);

@@ -20,8 +20,8 @@ public class ResultAnnouncerFacade {
 
     public ResultAnnouncerDto verifyTicket(UUID id) {
         CheckedTicket checkedTicket = resultCheckerFacade.checkUniqueTicket(id);
-        ResultAnnouncerDto summarizedTicket = resultAnnouncerSummarizer.summarizeUniqueTicket(checkedTicket);
-        resultAnnouncerRepository.save(summarizedTicket);
-        return summarizedTicket;
+        ResultAnnouncerDto result = resultAnnouncerSummarizer.summarizeUniqueTicket(checkedTicket);
+        resultAnnouncerRepository.save(result);
+        return result;
     }
 }
