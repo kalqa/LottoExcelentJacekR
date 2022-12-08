@@ -1,16 +1,19 @@
 package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
-import pl.lotto.numbersgenerator.LuckyNumbersDto;
+import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -21,15 +24,16 @@ public class ResultCheckerFacadeTest {
         // given
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
         LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorFacade.class);
+        ResultCheckerRepository repository = mock(ResultCheckerRepository.class);
         TicketChecker ticketChecker = new TicketChecker();
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker, repository);
         given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDto());
         given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
-
         // when
         List<CheckedTicket> checkedTickets = resultCheckerFacade.checkResult();
         // then
         assertThat(checkedTickets.get(0).getNumbersOfHits().size()).isEqualTo(3);
+        Assertions.assertEquals(new HashSet<>(checkedTickets.get(0).getNumbersOfHits()), Set.of(21,13,1));
     }
 
     @Test
@@ -37,11 +41,11 @@ public class ResultCheckerFacadeTest {
         // given
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
         LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorFacade.class);
+        ResultCheckerRepository repository = mock(ResultCheckerRepository.class);
         TicketChecker ticketChecker = new TicketChecker();
-        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker);
+        ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker, repository);
         given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDtoWithEmptyDate());
         given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
-
         // when
         Throwable throwable = catchThrowable(resultCheckerFacade::checkResult);
         // then

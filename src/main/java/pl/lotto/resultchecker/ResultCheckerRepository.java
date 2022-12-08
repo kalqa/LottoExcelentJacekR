@@ -3,11 +3,14 @@ package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface ResultCheckerRepository {
 
-    CheckedTicket save(CheckedTicket checkedTicket);
+    void saveAll(List<CheckedTicket> checkedTickets);
 
     List<CheckedTicket> findAllByDate(LocalDateTime date);
+
+    CheckedTicket findById(UUID id);
 }
 

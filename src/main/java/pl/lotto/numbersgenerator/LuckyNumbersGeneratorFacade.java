@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
-import pl.lotto.numberreceiver.NumberReceiverFacade;
-import pl.lotto.numberreceiver.dto.DrawDateDto;
+
+import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 
 public class LuckyNumbersGeneratorFacade {
 

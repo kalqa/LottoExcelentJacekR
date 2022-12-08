@@ -1,6 +1,7 @@
 package pl.lotto.numbersgenerator;
 
 import org.junit.jupiter.api.Test;
+import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

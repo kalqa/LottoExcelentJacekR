@@ -1,4 +1,4 @@
-package pl.lotto.numbersgenerator;
+package pl.lotto.numbersgenerator.dto;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
