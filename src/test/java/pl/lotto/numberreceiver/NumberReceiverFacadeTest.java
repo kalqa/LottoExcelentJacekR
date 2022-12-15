@@ -28,7 +28,7 @@
 //        // when
 //        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
 //        // then
-//        assertThat(result.message()).isEqualTo("success");
+//        assertThat(result.status()).isEqualTo("success");
 //    }
 //
 //    @Test
@@ -39,7 +39,7 @@
 //        // when
 //        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
 //        // then
-//        assertThat(result.message()).isEqualTo("failure");
+//        assertThat(result.status()).isEqualTo("failure");
 //    }
 //
 //    @Test
@@ -115,7 +115,7 @@
 //        // when
 //        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
 //        // then
-//        assertThat(result.message()).isEqualTo("failure");
+//        assertThat(result.status()).isEqualTo("failure");
 //    }
 //
 //    @Test
@@ -126,7 +126,7 @@
 //        // when
 //        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
 //        // then
-//        assertThat(result.message()).isEqualTo("failure");
+//        assertThat(result.status()).isEqualTo("failure");
 //    }
 //
 //    @Test
@@ -137,7 +137,7 @@
 //        // when
 //        NumberReceiverResultDto result = numberReceiverFacade.inputNumbers(numbersFromUser);
 //        // then
-//        assertThat(result.message()).isEqualTo("failure");
+//        assertThat(result.status()).isEqualTo("failure");
 //    }
 //
 //    @Test
