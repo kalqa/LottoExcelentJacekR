@@ -35,7 +35,7 @@ public class LottoWinnerSpec {
     protected MockMvc mockMvc;
 
     @Test
-    public void should_user_play_and_check_win_after_some_days() throws Exception {
+    public void  should_user_play_and_check_win_after_some_days() throws Exception {
         // given
         // when
         ResultActions perform = mockMvc.perform(post("/inputNumbers")

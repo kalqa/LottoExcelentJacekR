@@ -2,6 +2,7 @@ package pl.lotto.infrastructre.controller.numberreceiver;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 
@@ -15,7 +16,7 @@ public class NumberReceiverRestController {
     }
 
     @PostMapping("/inputNumbers")
-    public void inputNumbers(InputNumbersRequest request){
+    public void inputNumbers(@RequestBody InputNumbersRequest request){
         System.out.println(request.numbers);
     }
 
