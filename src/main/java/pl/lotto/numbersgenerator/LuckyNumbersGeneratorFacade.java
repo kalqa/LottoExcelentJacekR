@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
 import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 
+@Component
 public class LuckyNumbersGeneratorFacade {
 
     private static final int lotterySize = 6;

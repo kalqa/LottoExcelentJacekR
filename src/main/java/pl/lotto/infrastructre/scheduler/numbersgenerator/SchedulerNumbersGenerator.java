@@ -16,6 +16,6 @@ public class SchedulerNumbersGenerator {
 
     @Scheduled(cron = "${lotto.checker.lotteryRunOccurrence}")
     public void f() {
-        luckyNumbersGeneratorFacade.generateLuckyNumbers()
+//        luckyNumbersGeneratorFacade.generateLuckyNumbers();
     }
 }
