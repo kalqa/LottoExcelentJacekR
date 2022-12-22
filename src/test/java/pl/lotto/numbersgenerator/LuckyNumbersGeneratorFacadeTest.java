@@ -1,5 +1,6 @@
 package pl.lotto.numbersgenerator;
 
+import java.util.Random;
 import org.junit.jupiter.api.Test;
 import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 
@@ -14,7 +15,7 @@ public class LuckyNumbersGeneratorFacadeTest {
     public void should_return_required_size_of_set() {
         //given
         LocalDateTime localDateTime = LocalDateTime.of(2022, 11, 11, 11, 11);
-        LuckyNumbersGeneratorFacade numbersGenerator = new LuckyNumbersGeneratorFacade();
+        LuckyNumbersGeneratorFacade numbersGenerator = new LuckyNumbersGeneratorFacade(new Random());
         //when
         LuckyNumbersDto generatedNumbers = numbersGenerator.generateLuckyNumbers(localDateTime);
         //then

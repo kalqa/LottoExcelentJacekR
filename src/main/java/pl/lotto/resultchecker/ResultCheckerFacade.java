@@ -32,8 +32,7 @@ public class ResultCheckerFacade {
                 .map(LotteryTicketDto::drawDate)
                 .orElseThrow(DrawDateNotSpecifedForTicketException::new);
 
-        LuckyNumbersDto luckyNumbersDto = generatorFacade.generateLuckyNumbers(drawDate
-        );
+        LuckyNumbersDto luckyNumbersDto = generatorFacade.retrieve(drawDate);
 
         List<CheckedTicket> checkedTickets = ticketChecker.checkAllTickets(luckyNumbersDto.winningNumbers(), allNumbersFromUsersDto.tickets());
         repository.saveAll(checkedTickets);
