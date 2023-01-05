@@ -8,8 +8,11 @@ import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
+import pl.lotto.numbersgenerator.RandomNumbersGenerator;
 import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
+
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.Assert.assertEquals;
@@ -23,12 +26,17 @@ public class ResultCheckerFacadeTest {
     public void should_return_3_as_number_of_one_user_hits() {
         // given
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
+        given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDto());
+
         LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorFacade.class);
+        given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
+        given(luckyNumbersGeneratorFacade.retrieve(examplaryDate)).willReturn(new LuckyNumbersDto(emptyList(), examplaryDate));
+
         ResultCheckerRepository repository = mock(ResultCheckerRepository.class);
         TicketChecker ticketChecker = new TicketChecker();
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker, repository);
-        given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDto());
-        given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
+
+
         // when
         List<CheckedTicket> checkedTickets = resultCheckerFacade.checkResult();
         // then
@@ -46,6 +54,7 @@ public class ResultCheckerFacadeTest {
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker, repository);
         given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDtoWithEmptyDate());
         given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
+        luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate);
         // when
         Throwable throwable = catchThrowable(resultCheckerFacade::checkResult);
         // then
@@ -58,7 +67,7 @@ public class ResultCheckerFacadeTest {
     UUID examplaryId = UUID.fromString("123e4567-e89b-42d3-a456-556642440000");
 
     LuckyNumbersDto generateExamplaryLuckyNumbers(LocalDateTime localDateTime) {
-        return new LuckyNumbersDto(List.of(1, 13, 21, 44, 55, 66), localDateTime);
+        return new LuckyNumbersDto(Set.of(1, 13, 21, 44, 55, 66), localDateTime);
     }
 
     AllNumbersFromUsersDto examplaryAllNumbersFromUsersDto() {

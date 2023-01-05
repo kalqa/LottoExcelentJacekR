@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import pl.lotto.numbersgenerator.RandomNumbersGenerator;
+import pl.lotto.numbersgenerator.SixNumberGenerable;
 
 @Configuration
 @Profile("integration")
@@ -20,9 +22,14 @@ public class IntegrationTestConfiguration {
         return new AdjustableClock(friday.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
     }
 
+//    @Bean
+//    @Primary
+//    Random random() {
+//
+//    }
     @Bean
     @Primary
-    Random random() {
-
+    RandomNumbersGenerator randomNumbersGenerator() {
+        return new RandomNumbersGenerator();
     }
 }

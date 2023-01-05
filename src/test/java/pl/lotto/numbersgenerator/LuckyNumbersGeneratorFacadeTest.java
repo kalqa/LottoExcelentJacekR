@@ -1,7 +1,9 @@
 package pl.lotto.numbersgenerator;
 
 import java.util.Random;
+
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 
 import java.time.LocalDateTime;
@@ -10,12 +12,13 @@ import java.util.HashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LuckyNumbersGeneratorFacadeTest {
+    RandomNumbersGenerator randomNumbersGenerator = new RandomNumbersGenerator();
 
     @Test
     public void should_return_required_size_of_set() {
         //given
         LocalDateTime localDateTime = LocalDateTime.of(2022, 11, 11, 11, 11);
-        LuckyNumbersGeneratorFacade numbersGenerator = new LuckyNumbersGeneratorFacade(new Random());
+        LuckyNumbersGeneratorFacade numbersGenerator = new LuckyNumbersGeneratorFacade(randomNumbersGenerator);
         //when
         LuckyNumbersDto generatedNumbers = numbersGenerator.generateLuckyNumbers(localDateTime);
         //then
@@ -26,7 +29,7 @@ public class LuckyNumbersGeneratorFacadeTest {
     public void should_generate_unique_numbers() {
         //given
         LocalDateTime localDateTime = LocalDateTime.of(2022, 11, 11, 11, 11);
-        LuckyNumbersGeneratorFacade numbersGenerator = new LuckyNumbersGeneratorFacade();
+        LuckyNumbersGeneratorFacade numbersGenerator = new LuckyNumbersGeneratorFacade(randomNumbersGenerator);
         //when
         LuckyNumbersDto generatedNumbers = numbersGenerator.generateLuckyNumbers(localDateTime);
         //then
