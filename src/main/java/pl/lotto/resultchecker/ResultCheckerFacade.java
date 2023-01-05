@@ -4,12 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
 
+@Component
 public class ResultCheckerFacade {
 
     NumberReceiverFacade receiverFacade;

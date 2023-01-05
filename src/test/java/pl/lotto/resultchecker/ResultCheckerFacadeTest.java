@@ -1,22 +1,19 @@
 package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
-import java.util.*;
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
-import pl.lotto.numbersgenerator.RandomNumbersGenerator;
-import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
-
-import static java.util.Collections.emptyList;
+import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -29,8 +26,7 @@ public class ResultCheckerFacadeTest {
         given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDto());
 
         LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorFacade.class);
-        given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
-        given(luckyNumbersGeneratorFacade.retrieve(examplaryDate)).willReturn(new LuckyNumbersDto(emptyList(), examplaryDate));
+        given(luckyNumbersGeneratorFacade.retrieve(examplaryDate)).willReturn(new LuckyNumbersDto(List.of(1, 13, 21), examplaryDate));
 
         ResultCheckerRepository repository = mock(ResultCheckerRepository.class);
         TicketChecker ticketChecker = new TicketChecker();
@@ -41,7 +37,7 @@ public class ResultCheckerFacadeTest {
         List<CheckedTicket> checkedTickets = resultCheckerFacade.checkResult();
         // then
         assertThat(checkedTickets.get(0).getNumbersOfHits().size()).isEqualTo(3);
-        Assertions.assertEquals(new HashSet<>(checkedTickets.get(0).getNumbersOfHits()), Set.of(21,13,1));
+        Assertions.assertEquals(new HashSet<>(checkedTickets.get(0).getNumbersOfHits()), Set.of(21, 13, 1));
     }
 
     @Test

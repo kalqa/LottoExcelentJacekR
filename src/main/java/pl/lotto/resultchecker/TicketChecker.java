@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 
 public class TicketChecker {

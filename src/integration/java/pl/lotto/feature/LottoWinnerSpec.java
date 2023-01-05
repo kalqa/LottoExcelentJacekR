@@ -25,7 +25,6 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
     @Autowired
     protected ObjectMapper objectMapper;
 
-
     @Test
     public void should_user_play_and_check_win_after_some_days() throws Exception {
         // STEP 1: when user input 6 correct numbers (1,2,3,4,5,6) (in range 1-99) to POST /inputNumbers
@@ -53,11 +52,10 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
                 .until(() -> !luckyNumbersGeneratorFacade.retrieve(result.drawDate()).winningNumbers().isEmpty());
 
 
-        // STEP 4 user wants to know and if won using GET /winners/{userLotteryId}
+        // STEP 4 user wants to know if won using GET /winners/{userLotteryId} but before draw
         // given
-//        adjustableClock.plusDays(4);
         // when
-        ResultActions perform2 = mockMvc.perform(get("/winners" + result.lotteryId().toString())
+        ResultActions perform2 = mockMvc.perform(get("/winners/" + result.lotteryId().toString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().json(
                         "{\"numbersOfHit\":6," +
@@ -65,9 +63,15 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
                 .andExpect(status().isOk());
         // then
 
-        // STEP 5 system returns won result to user
+        // STEP 5 user wants to know if won using GET /winners/{userLotteryId} after draw
         // given
         // when
+        ResultActions perform3 = mockMvc.perform(get("/winners" + result.lotteryId())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().json(
+                        "{\"numbersOfHit\":6," +
+                                "\"drawDate\":\"2022-12-24T12:00:00\"}"))
+                .andExpect(status().isOk());
         // then
 
     }

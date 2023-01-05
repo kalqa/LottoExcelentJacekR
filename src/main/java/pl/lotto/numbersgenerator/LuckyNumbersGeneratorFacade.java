@@ -1,23 +1,18 @@
 package pl.lotto.numbersgenerator;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
-
+import org.springframework.stereotype.Component;
 import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
-
 import static java.util.Collections.emptyList;
 
-//@Component
+@Component
 public class LuckyNumbersGeneratorFacade {
 
     LocalDateTime drawDate;
 
-    private RandomNumbersGenerator generator;
+    private final RandomNumbersGenerator generator;
 
-    @Autowired
     public LuckyNumbersGeneratorFacade(RandomNumbersGenerator generator) {
         this.generator = generator;
     }

@@ -13,7 +13,7 @@ public class SchedulerNumbersGenerator {
     private final LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade;
     private final NumberReceiverFacade numberReceiverFacade;
 
-    SchedulerNumbersGenerator(LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade, NumberReceiverFacade numberReceiverFacade) {
+    public SchedulerNumbersGenerator(LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade, NumberReceiverFacade numberReceiverFacade) {
         this.luckyNumbersGeneratorFacade = luckyNumbersGeneratorFacade;
         this.numberReceiverFacade = numberReceiverFacade;
     }

@@ -1,5 +1,6 @@
 package pl.lotto.resultannouncer;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
 import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
 
 import java.util.List;

@@ -1,7 +1,6 @@
 package pl.lotto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,26 +8,17 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import pl.lotto.infrastructre.controller.numberreceiver.NumberReceiverRestController;
 import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
-import pl.lotto.resultannouncer.ResultAnnouncerRestController;
 
 @Testcontainers
 @AutoConfigureMockMvc
 @ActiveProfiles("integration")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BaseIntegrationTest {
-    @Autowired
-    protected NumberReceiverRestController numberReceiverRestController;
-    @Autowired
-    protected ResultAnnouncerRestController resultAnnouncerRestController;
-    @Autowired
-    protected WebApplicationContext webApplicationContext;
     @Autowired
     protected ObjectMapper objectMapper;
     @Autowired
@@ -46,6 +36,5 @@ public class BaseIntegrationTest {
     private static void propertyOverride(DynamicPropertyRegistry registry) {
         registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
     }
-
 
 }

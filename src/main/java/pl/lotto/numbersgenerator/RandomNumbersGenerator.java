@@ -1,12 +1,12 @@
 package pl.lotto.numbersgenerator;
 
-import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class RandomNumbersGenerator implements SixNumberGenerable {
 
     private static final int lotterySize = 6;
