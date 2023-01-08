@@ -6,6 +6,7 @@ import pl.lotto.resultchecker.CheckedTicket;
 import pl.lotto.resultchecker.ResultCheckerFacade;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class ResultAnnouncerFacadeTest {
         given(checkedTicket.getLotteryId()).willReturn(exemplaryId);
         given(checkedTicket.getNumbersOfHits()).willReturn(exemplaryNumbersOfHits);
         ResultCheckerFacade resultCheckerFacade = mock(ResultCheckerFacade.class);
-        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(checkedTicket);
+        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(Optional.of(checkedTicket));
         ResultAnnouncerSummarizer resultAnnouncerSummarizer = new ResultAnnouncerSummarizer();
         ResultAnnouncerRepository resultAnnouncerRepository = mock(ResultAnnouncerRepository.class);
         ResultAnnouncerFacade resultAnnouncerFacade = new ResultAnnouncerFacade(resultCheckerFacade, resultAnnouncerSummarizer, resultAnnouncerRepository);
@@ -42,7 +43,7 @@ public class ResultAnnouncerFacadeTest {
         given(checkedTicket.getLotteryId()).willReturn(exemplaryId);
         given(checkedTicket.getNumbersOfHits()).willReturn(exemplaryNumbersOfHits);
         ResultCheckerFacade resultCheckerFacade = mock(ResultCheckerFacade.class);
-        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(checkedTicket);
+        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(Optional.of(checkedTicket));
         given(resultCheckerFacade.checkResult()).willReturn(List.of(checkedTicket));
         ResultAnnouncerSummarizer resultAnnouncerSummarizer = new ResultAnnouncerSummarizer();
         ResultAnnouncerRepository resultAnnouncerRepository = mock(ResultAnnouncerRepository.class);
@@ -61,7 +62,7 @@ public class ResultAnnouncerFacadeTest {
         given(checkedTicket.getLotteryId()).willReturn(exemplaryId);
         given(checkedTicket.getNumbersOfHits()).willReturn(exemplaryNumbersOfHits);
         ResultCheckerFacade resultCheckerFacade = mock(ResultCheckerFacade.class);
-        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(checkedTicket);
+        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(Optional.of(checkedTicket));
         given(resultCheckerFacade.checkResult()).willReturn(List.of(checkedTicket));
         ResultAnnouncerSummarizer resultAnnouncerSummarizer = new ResultAnnouncerSummarizer();
         ResultAnnouncerRepository resultAnnouncerRepository = mock(ResultAnnouncerRepository.class);
@@ -80,7 +81,7 @@ public class ResultAnnouncerFacadeTest {
         given(checkedTicket.getLotteryId()).willReturn(exemplaryId);
         given(checkedTicket.getNumbersOfHits()).willReturn(exemplaryNumbersOfHits);
         ResultCheckerFacade resultCheckerFacade = mock(ResultCheckerFacade.class);
-        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(checkedTicket);
+        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(Optional.of(checkedTicket));
         given(resultCheckerFacade.checkResult()).willReturn(List.of(checkedTicket));
         ResultAnnouncerSummarizer resultAnnouncerSummarizer = new ResultAnnouncerSummarizer();
         ResultAnnouncerRepository resultAnnouncerRepository = mock(ResultAnnouncerRepository.class);
@@ -99,7 +100,7 @@ public class ResultAnnouncerFacadeTest {
         given(checkedTicket.getLotteryId()).willReturn(exemplaryId);
         given(checkedTicket.getNumbersOfHits()).willReturn(exemplaryNumbersOfHits);
         ResultCheckerFacade resultCheckerFacade = mock(ResultCheckerFacade.class);
-        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(checkedTicket);
+        given(resultCheckerFacade.checkUniqueTicket(exemplaryId)).willReturn(Optional.of(checkedTicket));
         given(resultCheckerFacade.checkResult()).willReturn(List.of(checkedTicket));
         ResultAnnouncerSummarizer resultAnnouncerSummarizer = new ResultAnnouncerSummarizer();
         ResultAnnouncerRepository resultAnnouncerRepository = mock(ResultAnnouncerRepository.class);

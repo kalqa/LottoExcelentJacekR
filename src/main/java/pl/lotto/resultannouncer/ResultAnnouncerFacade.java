@@ -5,6 +5,7 @@ import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
 import pl.lotto.resultchecker.CheckedTicket;
 import pl.lotto.resultchecker.ResultCheckerFacade;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -22,7 +23,7 @@ public class ResultAnnouncerFacade {
     }
 
     public ResultAnnouncerDto verifyTicket(UUID id) {
-        CheckedTicket checkedTicket = resultCheckerFacade.checkUniqueTicket(id);
+        Optional<CheckedTicket> checkedTicket = resultCheckerFacade.checkUniqueTicket(id);
         ResultAnnouncerDto result = resultAnnouncerSummarizer.summarizeUniqueTicket(checkedTicket);
         resultAnnouncerRepository.save(result);
         return result;

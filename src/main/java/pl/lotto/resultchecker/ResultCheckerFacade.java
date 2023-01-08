@@ -2,8 +2,10 @@ package pl.lotto.resultchecker;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
@@ -19,6 +21,7 @@ public class ResultCheckerFacade {
     TicketChecker ticketChecker;
     ResultCheckerRepository repository;
 
+    @Autowired
     public ResultCheckerFacade(NumberReceiverFacade receiverFacade, LuckyNumbersGeneratorFacade generatorFacade, TicketChecker ticketChecker, ResultCheckerRepository repository) {
         this.receiverFacade = receiverFacade;
         this.generatorFacade = generatorFacade;
@@ -41,11 +44,11 @@ public class ResultCheckerFacade {
         return checkedTickets;
     }
 
-    public List<CheckedTicket> checkWinningsInExactDate(LocalDateTime date) {
-        return repository.findAllByDate(date);
-    }
+//    public List<CheckedTicket> checkWinningsInExactDate(LocalDateTime date) {
+//        return repository.findAllByDate(date);
+//    }
 
-    public CheckedTicket checkUniqueTicket(UUID id) {
+    public Optional<CheckedTicket> checkUniqueTicket(UUID id) {
         return repository.findById(id);
     }
 }
