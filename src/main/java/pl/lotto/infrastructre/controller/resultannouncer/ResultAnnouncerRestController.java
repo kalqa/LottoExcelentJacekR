@@ -21,7 +21,9 @@ public class ResultAnnouncerRestController {
     @GetMapping("/winners/{lotteryId}")
     public ResponseEntity<ResultAnnouncerDto> checkWinnerById(@PathVariable String lotteryId) {
         ResultAnnouncerDto resultAnnouncerDto = resultAnnouncerFacade.verifyTicket(UUID.fromString(lotteryId));
+        if (resultAnnouncerDto.ticketAnnounce() == null){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(resultAnnouncerDto);
+        }
         return ResponseEntity.ok(resultAnnouncerDto);
     }
-
 }

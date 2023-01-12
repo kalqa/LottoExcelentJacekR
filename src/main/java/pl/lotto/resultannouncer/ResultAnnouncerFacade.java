@@ -29,6 +29,6 @@ public class ResultAnnouncerFacade {
         }
         ResultAnnouncerDto result = resultAnnouncerSummarizer.summarizeUniqueTicket(checkedTicket);
         resultAnnouncerRepository.save(result);
-        return result;
+            return result;
     }
 }

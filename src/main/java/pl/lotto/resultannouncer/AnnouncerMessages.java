@@ -6,7 +6,8 @@ public enum AnnouncerMessages {
     SECOND_PRIZE("You have won the second prize!"),
     THIRD_PRIZE("You have won the third prize!"),
     FOURTH_PRIZE("You have won the fourth prize!"),
-    NO_PRIZE("Keep playing");
+    NO_PRIZE("Keep playing"),
+    NOT_FOUND("Result not found");
 
     String message;
 
