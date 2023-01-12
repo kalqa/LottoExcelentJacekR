@@ -7,7 +7,7 @@ import pl.lotto.resultchecker.CheckedTicket;
 import java.util.Optional;
 
 @Component
-public class ResultAnnouncerSummarizer {
+class ResultAnnouncerSummarizer {
 
     public ResultAnnouncerDto summarizeUniqueTicket(Optional<CheckedTicket> checkedTicket) {
         return new ResultAnnouncerDto(checkedTicket.get().getLotteryId(), checkedTicket.get().getDrawDate(),

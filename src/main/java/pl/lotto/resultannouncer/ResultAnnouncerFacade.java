@@ -24,6 +24,9 @@ public class ResultAnnouncerFacade {
 
     public ResultAnnouncerDto verifyTicket(UUID id) {
         Optional<CheckedTicket> checkedTicket = resultCheckerFacade.checkUniqueTicket(id);
+        if(checkedTicket.isEmpty()){
+            return new ResultAnnouncerDto(null, AnnouncerMessages.NOT_FOUND);
+        }
         ResultAnnouncerDto result = resultAnnouncerSummarizer.summarizeUniqueTicket(checkedTicket);
         resultAnnouncerRepository.save(result);
         return result;

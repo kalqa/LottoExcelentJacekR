@@ -55,15 +55,22 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
         // STEP 4 user wants to know if won using GET /winners/{userLotteryId} but before draw
         // given
         // when
+        // then
         ResultActions perform2 = mockMvc.perform(get("/winners/" + result.lotteryId().toString())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(content().json(
-                        "{\"numbersOfHit\":6," +
-                                "\"drawDate\":\"2022-12-24T12:00:00\"}"))
-                .andExpect(status().isOk());
+                .andExpect(content().json("""
+                        {"ticketAnnounce":null,"message":"NOT_FOUND"}
+                        """))
+                .andExpect(status().isNoContent());
+
+
+        // STEP 5 system checkedWinner
+        // given
+        // when
         // then
 
-        // STEP 5 user wants to know if won using GET /winners/{userLotteryId} after draw
+
+        // STEP 6 user wants to know if won using GET /winners/{userLotteryId} after draw
         // given
         // when
         ResultActions perform3 = mockMvc.perform(get("/winners" + result.lotteryId())
