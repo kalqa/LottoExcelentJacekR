@@ -25,7 +25,7 @@ public class LuckyNumbersGeneratorFacade {
         return new LuckyNumbersDto(generator.luckyNumbers, drawDate);
     }
 
-    public LuckyNumbersDto retrieve(LocalDateTime drawDate) {
+    public LuckyNumbersDto retrieve(LocalDateTime drawDate){
         if (!generator.luckyNumbers.isEmpty()) {
             return new LuckyNumbersDto(generator.luckyNumbers, drawDate);
         }

@@ -3,6 +3,8 @@ package pl.lotto.numberreceiver;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.context.annotation.Profile;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.DrawDateDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
@@ -31,23 +33,27 @@ public class NumberReceiverFacade {
         if (validate.isNotValid()) {
             return failure(validate.message());
         }
-        UUID lotteryId = LotteryIdGenerator.generateLotteryId();
+        UUID lotteryId = generateLotteryUniqueId();
         LocalDateTime drawDate = drawDateSelector.specifyExactDateNextDraw();
         LotteryTicket lotteryTicket = new LotteryTicket(lotteryId, drawDate, numbersFromUser);
         repository.save(lotteryTicket);
         return success(validate.message(), lotteryId, drawDate);
     }
 
-    public AllNumbersFromUsersDto userNumbers(LocalDateTime date) {
-        List<LotteryTicket> allByDate = repository.findAllByDrawDate(date);
-        List<LotteryTicketDto> lotteryTicketDtos = allByDate.stream()
-                .map(lotteryTicket -> new LotteryTicketDto(
-                        lotteryTicket.getLotteryId(),
-                        lotteryTicket.getDrawDate(),
-                        lotteryTicket.getNumbersFromUser()))
-                .toList();
-        return new AllNumbersFromUsersDto(lotteryTicketDtos);
+    public UUID generateLotteryUniqueId() {
+        return LotteryIdGenerator.generateLotteryId();
     }
+
+//    public AllNumbersFromUsersDto userNumbers(LocalDateTime date) {
+//        List<LotteryTicket> allByDate = repository.findAllByDrawDate(date);
+//        List<LotteryTicketDto> lotteryTicketDtos = allByDate.stream()
+//                .map(lotteryTicket -> new LotteryTicketDto(
+//                        lotteryTicket.getLotteryId(),
+//                        lotteryTicket.getDrawDate(),
+//                        lotteryTicket.getNumbersFromUser()))
+//                .toList();
+//        return new AllNumbersFromUsersDto(lotteryTicketDtos);
+//    }
 
     public AllNumbersFromUsersDto userNumbersForNextDrawDate() {
         LocalDateTime localDateTime = drawDateSelector.specifyExactDateNextDraw();

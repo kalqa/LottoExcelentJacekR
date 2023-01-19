@@ -12,7 +12,9 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
+import pl.lotto.resultchecker.ResultCheckerFacade;
 
 @Testcontainers
 @AutoConfigureMockMvc
@@ -28,6 +30,12 @@ public class BaseIntegrationTest {
 
     @Autowired
     protected LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade;
+
+    @Autowired
+    protected ResultCheckerFacade resultCheckerFacade;
+
+//    @Autowired
+//    protected NumberReceiverFacade numberReceiverFacade;
 
     @Autowired
     public AdjustableClock adjustableClock;

@@ -2,7 +2,7 @@ package pl.lotto.resultannouncer;
 
 import org.springframework.stereotype.Component;
 import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
-import pl.lotto.resultannouncer.dto.TicketAnnounceDto;
+import pl.lotto.resultannouncer.dto.TicketAnnouncerDto;
 import pl.lotto.resultchecker.CheckedTicket;
 
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 class ResultAnnouncerSummarizer {
 
     public ResultAnnouncerDto summarizeUniqueTicket(Optional<CheckedTicket> checkedTicket) {
-        return new ResultAnnouncerDto(new TicketAnnounceDto(checkedTicket.get().getLotteryId(), checkedTicket.get().getDrawDate(),
+        return new ResultAnnouncerDto(new TicketAnnouncerDto(checkedTicket.get().getLotteryId(), checkedTicket.get().getDrawDate(),
                 checkedTicket.get().getNumbersFromUser(), checkedTicket.get().getNumbersOfHits()), informUser(checkedTicket.get().getNumbersOfHits().size()));
     }
 

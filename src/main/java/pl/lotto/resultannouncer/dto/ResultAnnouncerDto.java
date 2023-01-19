@@ -2,6 +2,6 @@ package pl.lotto.resultannouncer.dto;
 
 import pl.lotto.resultannouncer.AnnouncerMessages;
 
-public record ResultAnnouncerDto(TicketAnnounceDto ticketAnnounce,
+public record ResultAnnouncerDto(TicketAnnouncerDto ticketAnnounce,
                                  AnnouncerMessages message) {
 }
