@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 
-class DrawDateSelector {
+public class DrawDateSelector {
 
 
     public Clock clock;

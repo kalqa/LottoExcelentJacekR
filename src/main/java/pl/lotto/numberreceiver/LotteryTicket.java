@@ -1,12 +1,16 @@
 package pl.lotto.numberreceiver;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-
-class LotteryTicket {
+@Document
+public class LotteryTicket {
+    @Id
     private final UUID lotteryId;
     private final LocalDateTime drawDate;
     private final List<Integer> numbersFromUser;
@@ -17,15 +21,15 @@ class LotteryTicket {
         this.numbersFromUser = numbersFromUser;
     }
 
-    UUID getLotteryId() {
+    public UUID getLotteryId() {
         return lotteryId;
     }
 
-    LocalDateTime getDrawDate() {
+    public LocalDateTime getDrawDate() {
         return drawDate;
     }
 
-    List<Integer> getNumbersFromUser() {
+    public List<Integer> getNumbersFromUser() {
         return numbersFromUser;
     }
 

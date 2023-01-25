@@ -81,8 +81,12 @@ public class InMemoryNumberReceiverRepositoryTestImpl implements NumberReceiverR
     }
 
     @Override
-    public Optional<LotteryTicket> findById(UUID uuid) {
-        return Optional.empty();
+    public Optional<LotteryTicket> findById(UUID id) {
+        return database.keySet()
+                .stream()
+                .filter(lotteryTicket -> lotteryTicket.equals(id))
+                .map(database::get)
+                .findFirst();
     }
 
     @Override

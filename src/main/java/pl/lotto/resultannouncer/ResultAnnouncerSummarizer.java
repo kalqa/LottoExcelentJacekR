@@ -3,16 +3,15 @@ package pl.lotto.resultannouncer;
 import org.springframework.stereotype.Component;
 import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
 import pl.lotto.resultannouncer.dto.TicketAnnouncerDto;
-import pl.lotto.resultchecker.CheckedTicket;
-
-import java.util.Optional;
+import pl.lotto.resultchecker.dto.CheckedTicketDto;
+import pl.lotto.resultchecker.dto.TicketCheckerBeforeDrawDto;
 
 @Component
 class ResultAnnouncerSummarizer {
 
-    public ResultAnnouncerDto summarizeUniqueTicket(Optional<CheckedTicket> checkedTicket) {
-        return new ResultAnnouncerDto(new TicketAnnouncerDto(checkedTicket.get().getLotteryId(), checkedTicket.get().getDrawDate(),
-                checkedTicket.get().getNumbersFromUser(), checkedTicket.get().getNumbersOfHits()), informUser(checkedTicket.get().getNumbersOfHits().size()));
+    public ResultAnnouncerDto summarizeUniqueTicket(CheckedTicketDto checkedTicketDto) {
+        return new ResultAnnouncerDto(new TicketAnnouncerDto(checkedTicketDto.lotteryId(), checkedTicketDto.drawDate(),
+                checkedTicketDto.numbersFromUser(), checkedTicketDto.numbersOfHits()), informUser(checkedTicketDto.numbersOfHits().size()));
     }
 
     private AnnouncerMessages informUser(int numberOfHit) {
