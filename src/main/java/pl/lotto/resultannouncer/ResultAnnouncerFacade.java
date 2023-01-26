@@ -6,8 +6,6 @@ import pl.lotto.resultchecker.CheckedTicket;
 import pl.lotto.resultchecker.ResultCheckerFacade;
 import pl.lotto.resultchecker.ResultCheckerRepository;
 import pl.lotto.resultchecker.dto.CheckedTicketDto;
-import pl.lotto.resultchecker.dto.TicketCheckerBeforeDrawDto;
-import pl.lotto.resultchecker.dto.TicketStateDto;
 
 import java.util.Optional;
 import java.util.UUID;

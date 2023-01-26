@@ -26,7 +26,7 @@ public class NumberReceiverConfiguration {
         return new NumberReceiverFacade(validator, drawDateSelector, lotteryIdGenerator, repository);
     }
 
-    public NumberReceiverFacade createForTests(NumberReceiverRepository repository) {
-        return numberReceiverFacade(repository, Clock.systemUTC());
+    public NumberReceiverFacade createForTests(NumberReceiverRepository repository, Clock clock) {
+        return numberReceiverFacade(repository, clock);
     }
 }

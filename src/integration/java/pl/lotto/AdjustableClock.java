@@ -9,7 +9,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-public class AdjustableClock extends Clock {
+public class
+AdjustableClock extends Clock {
 
     protected Instant instant;
     private final ZoneId zone;

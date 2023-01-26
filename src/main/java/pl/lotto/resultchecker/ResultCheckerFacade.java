@@ -8,9 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.lotto.numberreceiver.LotteryTicket;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
-import pl.lotto.numberreceiver.NumberReceiverRepository;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
@@ -18,7 +16,7 @@ import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
 import pl.lotto.resultannouncer.UniqueTicketResultDto;
 import pl.lotto.resultchecker.dto.CheckedTicketDto;
 import pl.lotto.resultchecker.dto.TicketStateDto;
-import pl.lotto.resultchecker.dto.TicketCheckerBeforeDrawDto;
+
 
 @Component
 public class ResultCheckerFacade {
@@ -29,7 +27,6 @@ public class ResultCheckerFacade {
     @Autowired
     Clock clock;
     ResultCheckerRepository repository;
-    NumberReceiverRepository numberReceiverRepository;
 
     @Autowired
     public ResultCheckerFacade(NumberReceiverFacade receiverFacade, LuckyNumbersGeneratorFacade generatorFacade, TicketChecker ticketChecker, ResultCheckerRepository repository) {
@@ -45,7 +42,7 @@ public class ResultCheckerFacade {
                 .stream()
                 .findFirst()
                 .map(LotteryTicketDto::drawDate)
-                .orElseThrow(DrawDateNotSpecifedForTicketException::new);
+                .orElseThrow(DrawDateNotSpecifiedForTicketException::new);
 
         LuckyNumbersDto luckyNumbersDto = generatorFacade.retrieve(drawDate);
 
@@ -54,9 +51,6 @@ public class ResultCheckerFacade {
         return checkedTickets;
     }
 
-//    public List<CheckedTicket> checkWinningsInExactDate(LocalDateTime date) {
-//        return repository.findAllByDate(date);
-//    }
 
     public UniqueTicketResultDto checkUniqueTicket(UUID id) {
         Optional<CheckedTicket> byId = repository.findById(id);
@@ -64,7 +58,7 @@ public class ResultCheckerFacade {
             return new UniqueTicketResultDto(null, TicketStateDto.NOT_FOUND);
         }
         CheckedTicket checkedTicket = byId.get();
-        if (checkedTicket.getDrawDate().isBefore(LocalDateTime.now(clock))) {
+        if (checkedTicket.getDrawDate().isAfter(LocalDateTime.now(clock))) {
             return new UniqueTicketResultDto(null, TicketStateDto.TOO_EARLY);
         }
 

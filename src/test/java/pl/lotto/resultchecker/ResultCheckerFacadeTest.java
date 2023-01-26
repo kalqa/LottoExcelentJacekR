@@ -20,7 +20,7 @@ import static org.mockito.Mockito.mock;
 public class ResultCheckerFacadeTest {
 
     @Test
-    public void should_return_3_as_number_of_one_user_hits() {
+    public void should_return_3_as_number_of_one_user_hits()  {
         // given
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
         given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDto());
@@ -54,7 +54,7 @@ public class ResultCheckerFacadeTest {
         // when
         Throwable throwable = catchThrowable(resultCheckerFacade::checkResult);
         // then
-        assertThat(throwable).isInstanceOf(DrawDateNotSpecifedForTicketException.class);
+        assertThat(throwable).isInstanceOf(DrawDateNotSpecifiedForTicketException.class);
     }
 
 

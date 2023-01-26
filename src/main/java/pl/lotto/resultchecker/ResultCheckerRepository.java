@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface ResultCheckerRepository extends MongoRepository<CheckedTicket, UUID> {
 
     Optional<CheckedTicket> findById(UUID id);
-//    List<CheckedTicket> findAllByDate(LocalDateTime date);
+
 }

@@ -33,10 +33,8 @@ public class BaseIntegrationTest {
 
     @Autowired
     protected ResultCheckerFacade resultCheckerFacade;
-
-//    @Autowired
-//    protected NumberReceiverFacade numberReceiverFacade;
-
+    @Autowired
+    protected AdjustableNumberGenerator adjustableNumberGenerator;
     @Autowired
     public AdjustableClock adjustableClock;
 

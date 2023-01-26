@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
 import pl.lotto.resultannouncer.dto.TicketAnnouncerDto;
 import pl.lotto.resultchecker.dto.CheckedTicketDto;
-import pl.lotto.resultchecker.dto.TicketCheckerBeforeDrawDto;
 
 @Component
 class ResultAnnouncerSummarizer {

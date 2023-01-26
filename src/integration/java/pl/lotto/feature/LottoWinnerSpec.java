@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.lotto.BaseIntegrationTest;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
+import pl.lotto.resultannouncer.AnnouncerMessages;
+import pl.lotto.resultannouncer.ResultAnnouncerFacade;
+import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
+import pl.lotto.resultannouncer.dto.TicketAnnouncerDto;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -48,26 +58,23 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
                                         "\"drawDate\":\"2022-12-24T12:00:00\"}"))
                 .andReturn();
 
-//        Mockito.verify(numberReceiverFacade, Mockito.times(1)).generateLotteryUniqueId();
-
         String json = mvcResult.getResponse().getContentAsString();
         NumberReceiverResultDto result = objectMapper.readValue(json, NumberReceiverResultDto.class);
         // STEP 3 system generates random winning numbers (1,2,3,4,5,6) using “lotto” logic for 24-12-2022, winning numbers are generated every saturday at 12:00
         // when
-        String dateBeforeDrawingAsText = "2022-12-23T12:00:00";
-        LocalDateTime dateBeforeDrawing = LocalDateTime.parse(dateBeforeDrawingAsText);
-        adjustableClock.setClockToLocalDateTime(dateBeforeDrawing);
-        resultCheckerFacade.checkResult();
+
 //        await().atMost(10, SECONDS)
 //                .pollInterval(Duration.ofSeconds(1))
 //                .until(() -> !luckyNumbersGeneratorFacade.retrieve(result.drawDate()).winningNumbers().isEmpty());
-
 
         // STEP 4 user wants to know if won using GET /winners/{userLotteryId} but before draw
         // given
         // when
         // then
-
+        String dateBeforeDrawingAsText = "2022-12-23T12:00:00";
+        LocalDateTime dateBeforeDrawing = LocalDateTime.parse(dateBeforeDrawingAsText);
+        adjustableClock.setClockToLocalDateTime(dateBeforeDrawing);
+        resultCheckerFacade.checkResult();
 
         ResultActions perform2 = mockMvc.perform(get("/winners/" + result.lotteryId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -76,35 +83,31 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
                         """))
                 .andExpect(status().isNoContent());
 
+        // STEP 5 system checkedWinner
+        // given
+        // when
+        // then
 
-//        // STEP 5 system checkedWinner
-//        // given
-//        // when
-//        // then
-//
 //        await().atMost(10, SECONDS)
 //                .pollInterval(Duration.ofSeconds(1))
 //                .until(() -> !resultCheckerFacade.checkResult().isEmpty());
-//        // STEP 6 user wants to know if won using GET /winners/{userLotteryId} after draw
-//
-//        // given
-//        //        given(result.lotteryId()).willReturn(UUID.fromString("e0e3d2f1-c3e3-4f7c-9c97-a7e8c6c3d7f1"));
-//        adjustableClock.plusDays(5);
-//
-////        ResultAnnouncerFacade resultAnnouncerFacade = mock(ResultAnnouncerFacade.class);
-////        given(resultAnnouncerFacade.verifyTicket(result.lotteryId())).willReturn(new ResultAnnouncerDto(new TicketAnnouncerDto(result.lotteryId(),
-////                result.drawDate(), List.of(1,2,3,4,5,6), Set.of(1,2,3,4,5,6)), AnnouncerMessages.MAIN_PRIZE));
-//
-//        // when
-//        ResultActions perform3 = mockMvc.perform(get("/winners/" + result.lotteryId())
-//                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-//                .andExpect(content().json("""
-//                        {"message":"MAIN_PRIZE"}
-//                        """))
-//                .andExpect(status().isOk());
-//        // then
+        // STEP 6 user wants to know if won using GET /winners/{userLotteryId} after draw
 
-//"lotteryId":"e0e3d2f1-c3e3-4f7c-9c97-a7e8c6c3d7f1","drawDate":"2022-12-24T12:00:00","numbersFromUser":[1, 2, 3, 4, 5, 6],"numbersOfHits":"[1, 2, 3, 4, 5, 6]"}
+        // given
+        //        given(result.lotteryId()).willReturn(UUID.fromString("e0e3d2f1-c3e3-4f7c-9c97-a7e8c6c3d7f1"));
+        adjustableClock.plusDays(1);
+        adjustableNumberGenerator.randomSixNumbers();
+        resultCheckerFacade.checkResult();
+
+
+        // when
+        ResultActions perform3 = mockMvc.perform(get("/winners/" + result.lotteryId())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().json("""
+                        {"message":"MAIN_PRIZE"}
+                        """))
+                .andExpect(status().isOk());
+        // then
 
     }
 }

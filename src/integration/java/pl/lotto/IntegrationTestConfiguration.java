@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import pl.lotto.numberreceiver.*;
+import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
 import pl.lotto.numbersgenerator.RandomNumbersGenerator;
 
 @Configuration
@@ -21,10 +22,10 @@ public class IntegrationTestConfiguration {
         LocalDateTime friday = LocalDateTime.of(2022, 12, 22, 11, 0, 0);
         return new AdjustableClock(friday.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
     }
-
     @Bean
     @Primary
-    RandomNumbersGenerator randomNumbersGenerator() {
-        return new RandomNumbersGenerator();
+    AdjustableNumberGenerator  adjustableNumberGenerator() {
+        return new AdjustableNumberGenerator();
     }
+
 }
