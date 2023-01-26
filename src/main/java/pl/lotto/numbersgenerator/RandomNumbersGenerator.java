@@ -25,8 +25,5 @@ public class RandomNumbersGenerator implements SixNumberGenerable {
         }
         return luckyNumbers;
     }
-
-    public RandomNumbersGenerator() {
-    }
 }
 

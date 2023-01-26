@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +13,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.lotto.BaseIntegrationTest;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
-import pl.lotto.resultannouncer.AnnouncerMessages;
-import pl.lotto.resultannouncer.ResultAnnouncerFacade;
-import pl.lotto.resultannouncer.dto.ResultAnnouncerDto;
-import pl.lotto.resultannouncer.dto.TicketAnnouncerDto;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -42,8 +34,6 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
         // STEP 1: when user input 6 correct numbers (1,2,3,4,5,6) (in range 1-99) to POST /inputNumbers
         // STEP 2 system returns unique random userLotteryId and returned draw 24-12-2022 to user
         // given
-//        NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
-//        given(numberReceiverFacade.generateLotteryUniqueId()).willReturn(UUID.fromString("23d69703-2396-470b-8152-e915917d5327"));
 
         // when
         ResultActions perform = mockMvc.perform(post("/inputNumbers")
@@ -63,9 +53,6 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
         // STEP 3 system generates random winning numbers (1,2,3,4,5,6) using “lotto” logic for 24-12-2022, winning numbers are generated every saturday at 12:00
         // when
 
-//        await().atMost(10, SECONDS)
-//                .pollInterval(Duration.ofSeconds(1))
-//                .until(() -> !luckyNumbersGeneratorFacade.retrieve(result.drawDate()).winningNumbers().isEmpty());
 
         // STEP 4 user wants to know if won using GET /winners/{userLotteryId} but before draw
         // given
@@ -74,7 +61,12 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
         String dateBeforeDrawingAsText = "2022-12-23T12:00:00";
         LocalDateTime dateBeforeDrawing = LocalDateTime.parse(dateBeforeDrawingAsText);
         adjustableClock.setClockToLocalDateTime(dateBeforeDrawing);
-        resultCheckerFacade.checkResult();
+
+        await().atMost(10, SECONDS)
+                .pollInterval(Duration.ofSeconds(1))
+                .until(() -> resultCheckerFacade.checkResult().stream()
+                        .anyMatch(checkedTicket -> checkedTicket.getLotteryId().equals(result.lotteryId())));
+
 
         ResultActions perform2 = mockMvc.perform(get("/winners/" + result.lotteryId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -88,17 +80,13 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
         // when
         // then
 
-//        await().atMost(10, SECONDS)
-//                .pollInterval(Duration.ofSeconds(1))
-//                .until(() -> !resultCheckerFacade.checkResult().isEmpty());
         // STEP 6 user wants to know if won using GET /winners/{userLotteryId} after draw
 
         // given
-        //        given(result.lotteryId()).willReturn(UUID.fromString("e0e3d2f1-c3e3-4f7c-9c97-a7e8c6c3d7f1"));
-        adjustableClock.plusDays(1);
-        adjustableNumberGenerator.randomSixNumbers();
-        resultCheckerFacade.checkResult();
-
+        adjustableClock.plusDays(2);
+        await().atMost(30, SECONDS)
+                .pollInterval(Duration.ofSeconds(1))
+                .until(() -> !luckyNumbersGeneratorFacade.retrieve(result.drawDate()).winningNumbers().isEmpty());
 
         // when
         ResultActions perform3 = mockMvc.perform(get("/winners/" + result.lotteryId())
