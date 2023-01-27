@@ -12,7 +12,7 @@ public class RandomNumbersGenerator implements SixNumberGenerable {
     private static final int lotterySize = 6;
     private static final int startOfNumbersRange = 1;
     private static final int endOfNumbersRange = 99;
-    Set<Integer> luckyNumbers = new HashSet<>();
+    protected Set<Integer> luckyNumbers = new HashSet<>();
     Random random = new Random();
 
     @Override
