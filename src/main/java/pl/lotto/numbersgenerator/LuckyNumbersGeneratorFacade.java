@@ -18,16 +18,16 @@ public class LuckyNumbersGeneratorFacade {
     }
 
     public LuckyNumbersDto generateLuckyNumbers(LocalDateTime drawDate) {
-        if (generator.getAlreadyDrawnNumbers().isEmpty()) {
+        if (generator.randomSixNumbers().isEmpty()) {
             return new LuckyNumbersDto(generator.randomSixNumbers(), drawDate);
         }
-        return new LuckyNumbersDto(generator.getAlreadyDrawnNumbers(), drawDate);
+        return new LuckyNumbersDto(generator.randomSixNumbers(), drawDate);
     }
 
     public LuckyNumbersDto retrieve(LocalDateTime drawDate){
-        if (generator.getAlreadyDrawnNumbers().isEmpty()) {
+        if (generator.randomSixNumbers().isEmpty()) {
             return new LuckyNumbersDto(emptyList(), drawDate);
         }
-        return new LuckyNumbersDto(generator.getAlreadyDrawnNumbers(), drawDate);
+        return new LuckyNumbersDto(generator.randomSixNumbers(), drawDate);
     }
 }

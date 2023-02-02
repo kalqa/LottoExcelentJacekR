@@ -12,11 +12,12 @@ public class RandomNumbersGenerator implements SixNumberGenerable {
     private static final int lotterySize = 6;
     private static final int startOfNumbersRange = 1;
     private static final int endOfNumbersRange = 99;
-    protected Set<Integer> luckyNumbers = new HashSet<>();
+
     Random random = new Random();
 
     @Override
-    public Set<Integer> randomSixNumbers() {
+    synchronized public Set<Integer> randomSixNumbers() {
+        Set<Integer> luckyNumbers = new HashSet<>();
 
         while (luckyNumbers.size() < lotterySize) {
 
@@ -26,9 +27,5 @@ public class RandomNumbersGenerator implements SixNumberGenerable {
         return luckyNumbers;
     }
 
-    @Override
-    public Set<Integer> getAlreadyDrawnNumbers() {
-        return luckyNumbers;
-    }
 }
 
