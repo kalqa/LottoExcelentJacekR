@@ -1,11 +1,14 @@
 package pl.lotto;
 
 import pl.lotto.numbersgenerator.RandomNumbersGenerator;
+import pl.lotto.numbersgenerator.SixNumberGenerable;
 
+import java.util.HashSet;
 import java.util.Set;
 
-public class AdjustableNumberGenerator extends RandomNumbersGenerator {
+public class AdjustableNumberGenerator implements SixNumberGenerable {
 
+    protected Set<Integer> luckyNumbers = new HashSet<>();
     @Override
     public Set<Integer> randomSixNumbers() {
         luckyNumbers.add(1);
@@ -14,6 +17,11 @@ public class AdjustableNumberGenerator extends RandomNumbersGenerator {
         luckyNumbers.add(4);
         luckyNumbers.add(5);
         luckyNumbers.add(6);
+        return luckyNumbers;
+    }
+
+    @Override
+    public Set<Integer> getAlreadyDrawnNumbers() {
         return luckyNumbers;
     }
 }

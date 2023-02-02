@@ -25,5 +25,10 @@ public class RandomNumbersGenerator implements SixNumberGenerable {
         }
         return luckyNumbers;
     }
+
+    @Override
+    public Set<Integer> getAlreadyDrawnNumbers() {
+        return luckyNumbers;
+    }
 }
 
