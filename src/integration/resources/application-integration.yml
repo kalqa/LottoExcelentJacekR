@@ -1,9 +1,0 @@
-lotto:
-  checker:
-    lotteryRunOccurrence: "*/2 * * * * *"
-    lotteryResultsAnnouncement: "*/2 * * * * *"
-
-
-
-
-

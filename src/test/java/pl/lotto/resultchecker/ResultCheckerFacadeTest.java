@@ -10,8 +10,9 @@ import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
-import pl.lotto.numbersgenerator.LuckyNumbersGeneratorFacade;
-import pl.lotto.numbersgenerator.dto.LuckyNumbersDto;
+import pl.lotto.resultchecker.luckyNumbersHttpClient.LuckyNumbersDto;
+import pl.lotto.resultchecker.luckyNumbersHttpClient.LuckyNumbersGeneratorClient;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.BDDMockito.given;
@@ -25,8 +26,8 @@ public class ResultCheckerFacadeTest {
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
         given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDto());
 
-        LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorFacade.class);
-        given(luckyNumbersGeneratorFacade.retrieve(examplaryDate)).willReturn(new LuckyNumbersDto(List.of(1, 13, 21), examplaryDate));
+        LuckyNumbersGeneratorClient luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorClient.class);
+        given(luckyNumbersGeneratorFacade.retrieveLuckyNumbersForDate(examplaryDate)).willReturn(new LuckyNumbersDto(List.of(1, 13, 21), examplaryDate));
 
         ResultCheckerRepository repository = mock(ResultCheckerRepository.class);
         TicketChecker ticketChecker = new TicketChecker();
@@ -44,7 +45,7 @@ public class ResultCheckerFacadeTest {
     public void should_throw_exception_when_draw_date_is_not_specifed_for_ticket() {
         // given
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
-        LuckyNumbersGeneratorFacade luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorFacade.class);
+        LuckyNumbersGeneratorClient luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorClient.class);
         ResultCheckerRepository repository = mock(ResultCheckerRepository.class);
         TicketChecker ticketChecker = new TicketChecker();
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker, repository);
