@@ -40,29 +40,35 @@ public class ResultCheckerFacade {
 
     public List<CheckedTicket> checkResult() {
         AllNumbersFromUsersDto allNumbersFromUsersDto = receiverFacade.userNumbersForNextDrawDate();
-        LocalDateTime drawDate = allNumbersFromUsersDto.tickets()
-                .stream()
-                .findFirst()
-                .map(LotteryTicketDto::drawDate)
-                .orElseThrow(DrawDateNotSpecifiedForTicketException::new);
-        LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(drawDate);
-        List<CheckedTicket> checkedTickets = ticketChecker.checkAllTickets(luckyNumbersDto.winningNumbers(),
-                allNumbersFromUsersDto.tickets());
-        repository.saveAll(checkedTickets);
-        return checkedTickets;
-    }
-
-        public UniqueTicketResultDto checkUniqueTicket (UUID id){
-            Optional<CheckedTicket> byId = repository.findById(id);
-            if (byId.isEmpty()) {
-                return new UniqueTicketResultDto(null, TicketStateDto.NOT_FOUND);
-            }
-            CheckedTicket checkedTicket = byId.get();
-            if (checkedTicket.getDrawDate().isAfter(LocalDateTime.now(clock))) {
-                return new UniqueTicketResultDto(null, TicketStateDto.TOO_EARLY);
-            }
-
-            return new UniqueTicketResultDto(new CheckedTicketDto(checkedTicket.getLotteryId(), checkedTicket.getDrawDate(),
-                    checkedTicket.getNumbersFromUser(), checkedTicket.getNumbersOfHits()), TicketStateDto.CHECKED);
+        if (!allNumbersFromUsersDto.tickets().isEmpty()) {
+            LocalDateTime drawDate = allNumbersFromUsersDto.tickets()
+                    .stream()
+                    .findFirst()
+                    .map(LotteryTicketDto::drawDate)
+                    .orElseThrow(DrawDateNotSpecifiedForTicketException::new);
+            LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(drawDate);
+            List<CheckedTicket> checkedTickets = ticketChecker.checkAllTickets(luckyNumbersDto.winningNumbers(),
+                    allNumbersFromUsersDto.tickets());
+            repository.saveAll(checkedTickets);
+            return checkedTickets;
         }
+//        throw new IllegalArgumentException("No users numbers found")
+        LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(LocalDateTime.parse("2022-02-08T12:00:00"));
+        System.out.println("lucky numbers dto: " + luckyNumbersDto);
+        return List.of(new CheckedTicket(null,null,null,null));
     }
+
+    public UniqueTicketResultDto checkUniqueTicket(UUID id) {
+        Optional<CheckedTicket> byId = repository.findById(id);
+        if (byId.isEmpty()) {
+            return new UniqueTicketResultDto(null, TicketStateDto.NOT_FOUND);
+        }
+        CheckedTicket checkedTicket = byId.get();
+        if (checkedTicket.getDrawDate().isAfter(LocalDateTime.now(clock))) {
+            return new UniqueTicketResultDto(null, TicketStateDto.TOO_EARLY);
+        }
+
+        return new UniqueTicketResultDto(new CheckedTicketDto(checkedTicket.getLotteryId(), checkedTicket.getDrawDate(),
+                checkedTicket.getNumbersFromUser(), checkedTicket.getNumbersOfHits()), TicketStateDto.CHECKED);
+    }
+}

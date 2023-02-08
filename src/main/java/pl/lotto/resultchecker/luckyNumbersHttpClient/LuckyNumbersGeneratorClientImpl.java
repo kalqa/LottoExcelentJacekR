@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,8 +15,11 @@ public class LuckyNumbersGeneratorClientImpl implements LuckyNumbersGeneratorCli
 
     private final RestTemplate restTemplate;
 
-    @Value("${luckyNumbersGeneratorFacade.url}")
+    @Value("${luckyNumbersGeneratorFacade.url:localhost}")
     private String luckyNumbersGeneratorFacadeUrl;
+
+    @Value("${luckyNumbersGeneratorFacade.port:8087}")
+    private String luckyNumbersGeneratorFacadePort;
 
     public LuckyNumbersGeneratorClientImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -21,7 +27,10 @@ public class LuckyNumbersGeneratorClientImpl implements LuckyNumbersGeneratorCli
 
     @Override
     public LuckyNumbersDto retrieveLuckyNumbersForDate(LocalDateTime date) {
-        String url = luckyNumbersGeneratorFacadeUrl + "/" + date.format(DateTimeFormatter.ISO_DATE_TIME);
+        String url = "http://" + luckyNumbersGeneratorFacadeUrl + ":" +luckyNumbersGeneratorFacadePort + "/?"
+                + date.format(DateTimeFormatter.ISO_DATE_TIME);
+
+        System.out.println("***************** url jaki idzie: " + url +" +++++++++++++++++++++");
         return restTemplate.getForObject(url, LuckyNumbersDto.class);
     }
 
