@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.lotto.infrastructre.scheduler.resultsannouncer.Counter;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
@@ -53,9 +54,11 @@ public class ResultCheckerFacade {
             return checkedTickets;
         }
 //        throw new IllegalArgumentException("No users numbers found")
-        LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(LocalDateTime.parse("2022-02-08T12:00:00"));
+        Counter counter = new Counter();
+        counter.counterIncrease();
+        LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(LocalDateTime.parse("2022-02-08T12:00:00").plusDays(Counter.counter));
         System.out.println("lucky numbers dto: " + luckyNumbersDto);
-        return List.of(new CheckedTicket(null,null,null,null));
+        return List.of(new CheckedTicket(null, null, null, null));
     }
 
     public UniqueTicketResultDto checkUniqueTicket(UUID id) {

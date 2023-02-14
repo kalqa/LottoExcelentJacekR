@@ -4,7 +4,8 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost:27017/lotto-web   # mongodb://[username:password@]host1[:port1]/[database-name]
+      uri: mongodb://admin:admin@localhost/lottogen?authSource=admin   # mongodb://[username:password@]host1[:port1]/[database-name]
+#      uri: mongodb://admin:admin@localhost:27017/lotto-web?authSource=admin
 lotto:
   checker:
     lotteryResultsAnnouncement: "*/14 * * * * *"

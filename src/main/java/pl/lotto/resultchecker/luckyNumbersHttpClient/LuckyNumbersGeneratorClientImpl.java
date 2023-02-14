@@ -4,9 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -27,7 +24,7 @@ public class LuckyNumbersGeneratorClientImpl implements LuckyNumbersGeneratorCli
 
     @Override
     public LuckyNumbersDto retrieveLuckyNumbersForDate(LocalDateTime date) {
-        String url = "http://" + luckyNumbersGeneratorFacadeUrl + ":" +luckyNumbersGeneratorFacadePort + "/?"
+        String url = "http://" + luckyNumbersGeneratorFacadeUrl + ":" +luckyNumbersGeneratorFacadePort + "/?" + "date="
                 + date.format(DateTimeFormatter.ISO_DATE_TIME);
 
         System.out.println("***************** url jaki idzie: " + url +" +++++++++++++++++++++");
