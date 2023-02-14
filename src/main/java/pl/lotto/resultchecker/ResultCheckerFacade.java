@@ -55,9 +55,9 @@ public class ResultCheckerFacade {
         }
 //        throw new IllegalArgumentException("No users numbers found")
         Counter counter = new Counter();
-        counter.counterIncrease();
         LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(LocalDateTime.parse("2022-02-08T12:00:00").plusDays(Counter.counter));
-        System.out.println("lucky numbers dto: " + luckyNumbersDto);
+        counter.counterIncrease();
+        System.out.println("Przesłane od LuckyNumbersGenerator liczby: " + luckyNumbersDto);
         return List.of(new CheckedTicket(null, null, null, null));
     }
 

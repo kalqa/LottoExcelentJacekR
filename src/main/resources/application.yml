@@ -1,11 +1,12 @@
 spring:
   main:
     allow-bean-definition-overriding: true
-
   data:
     mongodb:
-      uri: mongodb://admin:admin@localhost/lottogen?authSource=admin   # mongodb://[username:password@]host1[:port1]/[database-name]
-#      uri: mongodb://admin:admin@localhost:27017/lotto-web?authSource=admin
+      uri: mongodb://admin:admin@localhost:27018/lotto-web?authSource=admin # mongodb://[username:password@]host1[:port1]/[database-name]
+#      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/lotto-web?authSource=admin
+
+#      uri: mongodb://admin:admin@mongo_db/lotto-web?authSource=admin
 lotto:
   checker:
     lotteryResultsAnnouncement: "*/14 * * * * *"
@@ -17,3 +18,9 @@ lotto:
 #    lotteryResultsAnnouncement: "${lotto.time.drawSeconds} ${lotto.time.drawMinutes} ${lotto.time.drawHour} * * ${lotto.time.drawDayOfWeek}"
 server:
   port: 8088
+
+
+
+
+
+#    uri: mongodb://admin:admin@localhost/lottogen?authSource=admin   # mongodb://[username:password@]host1[:port1]/[database-name]
