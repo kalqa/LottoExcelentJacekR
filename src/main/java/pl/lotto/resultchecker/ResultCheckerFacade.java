@@ -15,8 +15,8 @@ import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.resultannouncer.UniqueTicketResultDto;
 import pl.lotto.resultchecker.dto.CheckedTicketDto;
 import pl.lotto.resultchecker.dto.TicketStateDto;
-import pl.lotto.resultchecker.luckyNumbersHttpClient.LuckyNumbersDto;
-import pl.lotto.resultchecker.luckyNumbersHttpClient.LuckyNumbersGeneratorClient;
+import pl.lotto.resultchecker.luckyNumbersHttp.LuckyNumbersDto;
+import pl.lotto.resultchecker.luckyNumbersHttp.LuckyNumbersGeneratorClient;
 
 
 @Component
@@ -57,7 +57,7 @@ public class ResultCheckerFacade {
         Counter counter = new Counter();
         LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(LocalDateTime.parse("2022-02-08T12:00:00").plusDays(Counter.counter));
         counter.counterIncrease();
-        System.out.println("Przesłane od LuckyNumbersGenerator liczby: " + luckyNumbersDto);
+        System.out.println("++++++++   Przeslane od LuckyNumbersGenerator liczby: " + luckyNumbersDto + "   ++++++++");
         return List.of(new CheckedTicket(null, null, null, null));
     }
 

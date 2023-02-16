@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
-import pl.lotto.resultchecker.luckyNumbersHttpClient.LuckyNumbersDto;
-import pl.lotto.resultchecker.luckyNumbersHttpClient.LuckyNumbersGeneratorClient;
+import pl.lotto.resultchecker.luckyNumbersHttp.LuckyNumbersDto;
+import pl.lotto.resultchecker.luckyNumbersHttp.LuckyNumbersGeneratorClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -42,7 +42,7 @@ public class ResultCheckerFacadeTest {
     }
 
     @Test
-    public void should_throw_exception_when_draw_date_is_not_specifed_for_ticket() {
+    public void should_throw_exception_when_draw_date_is_not_specified_for_ticket() {
         // given
         NumberReceiverFacade numberReceiverFacade = mock(NumberReceiverFacade.class);
         LuckyNumbersGeneratorClient luckyNumbersGeneratorFacade = mock(LuckyNumbersGeneratorClient.class);
@@ -50,8 +50,8 @@ public class ResultCheckerFacadeTest {
         TicketChecker ticketChecker = new TicketChecker();
         ResultCheckerFacade resultCheckerFacade = new ResultCheckerFacade(numberReceiverFacade, luckyNumbersGeneratorFacade, ticketChecker, repository);
         given(numberReceiverFacade.userNumbersForNextDrawDate()).willReturn(examplaryAllNumbersFromUsersDtoWithEmptyDate());
-        given(luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
-        luckyNumbersGeneratorFacade.generateLuckyNumbers(examplaryDate);
+        given(luckyNumbersGeneratorFacade.retrieveLuckyNumbersForDate(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
+        luckyNumbersGeneratorFacade.retrieveLuckyNumbersForDate(examplaryDate);
         // when
         Throwable throwable = catchThrowable(resultCheckerFacade::checkResult);
         // then
@@ -76,4 +76,3 @@ public class ResultCheckerFacadeTest {
     }
 
 }
-

@@ -1,7 +1,10 @@
-package pl.lotto.resultchecker.luckyNumbersHttpClient;
+package pl.lotto.resultchecker.luckyNumbersHttp;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -12,7 +15,7 @@ public class LuckyNumbersGeneratorClientImpl implements LuckyNumbersGeneratorCli
 
     private final RestTemplate restTemplate;
 
-    @Value("${luckyNumbersGeneratorFacade.url:localhost}")
+    @Value("${luckyNumbersGeneratorFacade.url:http://localhost}")
     private String luckyNumbersGeneratorFacadeUrl;
 
     @Value("${luckyNumbersGeneratorFacade.port:8087}")
@@ -24,15 +27,14 @@ public class LuckyNumbersGeneratorClientImpl implements LuckyNumbersGeneratorCli
 
     @Override
     public LuckyNumbersDto retrieveLuckyNumbersForDate(LocalDateTime date) {
-        String url = "http://" + luckyNumbersGeneratorFacadeUrl + ":" +luckyNumbersGeneratorFacadePort + "/?" + "date="
+        String url = luckyNumbersGeneratorFacadeUrl + ":" + luckyNumbersGeneratorFacadePort + "/?" + "date="
                 + date.format(DateTimeFormatter.ISO_DATE_TIME);
 
-        System.out.println("***************** url jaki idzie: " + url +" +++++++++++++++++++++");
-        return restTemplate.getForObject(url, LuckyNumbersDto.class);
-    }
-
-    @Override
-    public LuckyNumbersDto generateLuckyNumbers(LocalDateTime drawDate) {
-        return null;
+        ResponseEntity<LuckyNumbersDto> response = restTemplate.getForEntity(url, LuckyNumbersDto.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            throw new IllegalStateException("Unexpected status code: " + response.getStatusCodeValue());
+        }
     }
 }

@@ -1,4 +1,4 @@
-package pl.lotto.resultchecker.luckyNumbersHttpClient;
+package pl.lotto.resultchecker.luckyNumbersHttp;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
