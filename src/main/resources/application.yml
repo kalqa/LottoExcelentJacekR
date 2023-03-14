@@ -12,6 +12,10 @@ lotto:
     lotteryResultsAnnouncement: "*/14 * * * * *"
 
 
+luckyNumbersGeneratorFacade:
+  url: http://numgen
+  port: 8002
+
 ##    drawTime: "${lotto.time.drawHour}:${lotto.time.drawMinutes}:${lotto.time.drawSeconds}"
 #  checker:
 #    lotteryRunOccurrence: "${lotto.time.drawSeconds} ${lotto.time.drawMinutes} ${lotto.time.drawHour} * * ${lotto.time.drawDayOfWeek}"
