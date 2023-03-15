@@ -13,7 +13,7 @@ lotto:
 
 
 luckyNumbersGeneratorFacade:
-  url: http://numgen
+  url: http://192.168.0.108
   port: 8002
 
 ##    drawTime: "${lotto.time.drawHour}:${lotto.time.drawMinutes}:${lotto.time.drawSeconds}"
