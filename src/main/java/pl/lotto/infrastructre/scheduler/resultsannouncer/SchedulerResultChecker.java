@@ -1,12 +1,13 @@
 package pl.lotto.infrastructre.scheduler.resultsannouncer;
 
+import java.time.LocalDateTime;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.lotto.resultchecker.ResultCheckerFacade;
 
-import java.time.LocalDateTime;
-
 @Component
+@Log4j2
 public class SchedulerResultChecker {
 
     private final ResultCheckerFacade resultCheckerFacade;
@@ -16,10 +17,10 @@ public class SchedulerResultChecker {
         this.resultCheckerFacade = resultCheckerFacade;
     }
 
-//    @Scheduled(cron = "${lotto.checker.lotteryResultsAnnouncement}")
-//    public void f() {
-//        System.out.println(LocalDateTime.now());
-//        resultCheckerFacade.checkResult();
-//    }
+    @Scheduled(cron = "${lotto.checker.lotteryResultsAnnouncement}")
+    public void f() {
+        log.info("schduler started");
+        resultCheckerFacade.generateResult();
+    }
 }
 

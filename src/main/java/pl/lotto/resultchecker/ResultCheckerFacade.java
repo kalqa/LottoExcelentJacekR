@@ -5,12 +5,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.lotto.infrastructre.scheduler.resultsannouncer.Counter;
 import pl.lotto.numberreceiver.NumberReceiverFacade;
 import pl.lotto.numberreceiver.dto.AllNumbersFromUsersDto;
+import pl.lotto.numberreceiver.dto.DrawDateDto;
 import pl.lotto.numberreceiver.dto.LotteryTicketDto;
 import pl.lotto.resultannouncer.UniqueTicketResultDto;
 import pl.lotto.resultchecker.dto.CheckedTicketDto;
@@ -39,7 +38,12 @@ public class ResultCheckerFacade {
         this.repository = repository;
     }
 
-    public List<CheckedTicket> checkResult() {
+    public boolean wasCheckedForNextDrawDate() {
+        DrawDateDto drawDateDto = receiverFacade.specifyDrawDate();
+        return repository.existsByDrawDate(drawDateDto.drawDate());
+    }
+
+    public List<CheckedTicket> generateResult() {
         AllNumbersFromUsersDto allNumbersFromUsersDto = receiverFacade.userNumbersForNextDrawDate();
         if (!allNumbersFromUsersDto.tickets().isEmpty()) {
             LocalDateTime drawDate = allNumbersFromUsersDto.tickets()
@@ -67,10 +71,10 @@ public class ResultCheckerFacade {
             return new UniqueTicketResultDto(null, TicketStateDto.NOT_FOUND);
         }
         CheckedTicket checkedTicket = byId.get();
-        if (checkedTicket.getDrawDate().isAfter(LocalDateTime.now(clock))) {
+        boolean after = checkedTicket.getDrawDate().isAfter(LocalDateTime.now(clock));
+        if (after) {
             return new UniqueTicketResultDto(null, TicketStateDto.TOO_EARLY);
         }
-
         return new UniqueTicketResultDto(new CheckedTicketDto(checkedTicket.getLotteryId(), checkedTicket.getDrawDate(),
                 checkedTicket.getNumbersFromUser(), checkedTicket.getNumbersOfHits()), TicketStateDto.CHECKED);
     }

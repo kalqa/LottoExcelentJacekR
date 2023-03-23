@@ -1,6 +1,7 @@
 package pl.lotto.resultchecker;
 
 
+import java.time.LocalDateTime;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ public interface ResultCheckerRepository extends MongoRepository<CheckedTicket, 
 
     Optional<CheckedTicket> findById(UUID id);
 
+    boolean existsByDrawDate(LocalDateTime drawDate);
 }

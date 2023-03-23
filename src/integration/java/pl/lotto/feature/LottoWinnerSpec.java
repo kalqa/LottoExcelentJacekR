@@ -2,6 +2,8 @@ package pl.lotto.feature;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +14,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import pl.lotto.BaseIntegrationTest;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
 import pl.lotto.resultchecker.ResultCheckerFacade;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,9 +35,8 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
 
     @Test
     public void should_user_play_and_check_win_after_some_days() throws Exception {
-// Step 0
-
-        wireMockServer.stubFor(WireMock.get("?date=2022-12-24T12:00:00")
+        // Step 0
+        wireMockServer.stubFor(WireMock.get(urlEqualTo("/?date=2022-12-24T12:00:00"))
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
@@ -72,7 +70,14 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
 //                .pollInterval(Duration.ofSeconds(1))
 //                .until(() -> !luckyNumbersGeneratorFacade.retrieve(result.drawDate()).winningNumbers().isEmpty());
 
-        resultCheckerFacade.checkResult();
+
+        // STEP 00000 system checkedWinner results
+        // given
+        // when
+        await().atMost(10, SECONDS)
+                .pollInterval(Duration.ofSeconds(1))
+                .until(() -> resultCheckerFacade.wasCheckedForNextDrawDate());
+
 
         // STEP 4 user wants to know if won using GET /winners/{userLotteryId} but before draw
         // given
@@ -91,19 +96,20 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
                 .andExpect(status().isNoContent());
 
 
+        // STEP 02034i234 after 2 days
+        adjustableClock.plusDays(2);
+
+
         // STEP 5 system checkedWinner
         // given
         // when
-        await().atMost(10, SECONDS)
+        await().atMost(20, SECONDS)
                 .pollInterval(Duration.ofSeconds(1))
-                .until(() -> resultCheckerFacade.checkResult().stream()
-                        .anyMatch(checkedTicket -> checkedTicket.getLotteryId().equals(result.lotteryId())));
+                .until(() -> resultCheckerFacade.checkUniqueTicket(result.lotteryId())
+                        .ticketStateDto()
+                        .isChecked());
         // then
 
-
-        // STEP 6 after 2 days
-
-        adjustableClock.plusDays(2);
 
         // STEP 7 user wants to know if won using GET /winners/{userLotteryId} after draw
         // when

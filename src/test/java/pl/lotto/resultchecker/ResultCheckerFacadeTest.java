@@ -35,7 +35,7 @@ public class ResultCheckerFacadeTest {
 
 
         // when
-        List<CheckedTicket> checkedTickets = resultCheckerFacade.checkResult();
+        List<CheckedTicket> checkedTickets = resultCheckerFacade.generateResult();
         // then
         assertThat(checkedTickets.get(0).getNumbersOfHits().size()).isEqualTo(3);
         Assertions.assertEquals(new HashSet<>(checkedTickets.get(0).getNumbersOfHits()), Set.of(21, 13, 1));
@@ -53,7 +53,7 @@ public class ResultCheckerFacadeTest {
         given(luckyNumbersGeneratorFacade.retrieveLuckyNumbersForDate(examplaryDate)).willReturn(generateExamplaryLuckyNumbers(examplaryDate));
         luckyNumbersGeneratorFacade.retrieveLuckyNumbersForDate(examplaryDate);
         // when
-        Throwable throwable = catchThrowable(resultCheckerFacade::checkResult);
+        Throwable throwable = catchThrowable(resultCheckerFacade::generateResult);
         // then
         assertThat(throwable).isInstanceOf(DrawDateNotSpecifiedForTicketException.class);
     }
