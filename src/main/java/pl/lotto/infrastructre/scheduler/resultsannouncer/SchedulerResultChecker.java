@@ -16,10 +16,10 @@ public class SchedulerResultChecker {
         this.resultCheckerFacade = resultCheckerFacade;
     }
 
-    @Scheduled(cron = "${lotto.checker.lotteryResultsAnnouncement}")
-    public void f() {
-        System.out.println(LocalDateTime.now());
-        resultCheckerFacade.checkResult();
-    }
+//    @Scheduled(cron = "${lotto.checker.lotteryResultsAnnouncement}")
+//    public void f() {
+//        System.out.println(LocalDateTime.now());
+//        resultCheckerFacade.checkResult();
+//    }
 }
 

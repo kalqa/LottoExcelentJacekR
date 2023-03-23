@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.lotto.BaseIntegrationTest;
 import pl.lotto.numberreceiver.dto.NumberReceiverResultDto;
+import pl.lotto.resultchecker.ResultCheckerFacade;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -30,9 +31,13 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
     @Autowired
     protected ObjectMapper objectMapper;
 
+    @Autowired
+    protected ResultCheckerFacade resultCheckerFacade;
+
     @Test
     public void should_user_play_and_check_win_after_some_days() throws Exception {
 // Step 0
+
         wireMockServer.stubFor(WireMock.get("?date=2022-12-24T12:00:00")
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
@@ -40,6 +45,7 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
                         .withBody("""
                                 {"winningNumbers":[1,2,3,4,5,6],"localDateTime":"2022-12-24T12:00:00"}
                                           """.trim())));
+
 
         // STEP 1: when user input 6 correct numbers (1,2,3,4,5,6) (in range 1-99) to POST /inputNumbers
         // STEP 2 system returns unique random userLotteryId and returned draw 24-12-2022 to user
@@ -66,6 +72,7 @@ public class LottoWinnerSpec extends BaseIntegrationTest {
 //                .pollInterval(Duration.ofSeconds(1))
 //                .until(() -> !luckyNumbersGeneratorFacade.retrieve(result.drawDate()).winningNumbers().isEmpty());
 
+        resultCheckerFacade.checkResult();
 
         // STEP 4 user wants to know if won using GET /winners/{userLotteryId} but before draw
         // given

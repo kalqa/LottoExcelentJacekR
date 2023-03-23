@@ -54,10 +54,10 @@ public class ResultCheckerFacade {
             return checkedTickets;
         }
 //        throw new IllegalArgumentException("No users numbers found")
-        Counter counter = new Counter();
-        LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(LocalDateTime.parse("2022-02-08T12:00:00").plusDays(Counter.counter));
-        counter.counterIncrease();
-        System.out.println("++++++++   Przeslane od LuckyNumbersGenerator liczby: " + luckyNumbersDto + "   ++++++++");
+//        Counter counter = new Counter();
+//        LuckyNumbersDto luckyNumbersDto = generatorClient.retrieveLuckyNumbersForDate(LocalDateTime.parse("2022-02-08T12:00:00").plusDays(Counter.counter));
+//        counter.counterIncrease();
+//        System.out.println("++++++++   Przeslane od LuckyNumbersGenerator liczby: " + luckyNumbersDto + "   ++++++++");
         return List.of(new CheckedTicket(null, null, null, null));
     }
 
